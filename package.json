@@ -1,0 +1,9 @@
+{
+	"name": "cucudb",
+	"description": "A simplified database service provided to developer users",
+	"version": "0.0.1",
+	"main": "app.js",
+	"dependencies": {
+		"express": "3.3.4"
+	}
+}

@@ -1,0 +1,48 @@
+<form id="form-login">
+	<legend>Login</legend>
+	
+	<div class="control-group">
+		<label>Username</label>
+		<div class="controls">
+			<input type="text" name="username">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label>Password</label>
+		<div class="controls">
+			<input type="password" name="password">
+		</div>
+	</div>
+	
+	 <div class="control-group">
+		<div class="controls">
+			<input type="submit" value="Login">
+		</div>
+	</div>
+</form>
+
+<hr>
+<a href="/">Back</a>
+
+<script src="/plug/jquery/jquery.min.js"></script>
+<script src="/plug/underscore/underscore-min.js"></script>
+<script src="/js/form.js"></script>
+<script>
+	$(document).ready(function(){
+		//form submit
+		$('#form-login').on('submit', function(ev){
+			var $form = $(this);
+			
+			$.post('/do_login', $form.getFormData(), function(reply){
+				alert(reply['msg']);
+				
+				if (reply['ok']) {
+					location.href = '/check_user/?_id=' + reply['_id'];
+				}
+			});
+			
+			return false;
+		});
+	});
+</script>
