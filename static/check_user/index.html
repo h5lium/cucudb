@@ -30,12 +30,13 @@
 	
 	 <div class="control-group">
 		<div class="controls">
-			<input type="button" id="btn_drop" value="Drop">
+			<input type="button" id="btn-drop" value="Drop">
 			<input type="reset" value="Reset">
 			<input type="submit" value="Modify">
 		</div>
 	</div>
 </form>
+
 
 <table id="table-collections">
 	<caption>My Collections</caption>
@@ -48,7 +49,16 @@
 		</tr>
 	</thead>
 	<tbody></tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4">
+				<button id="btn-create">Create</button>
+			</td>
+		</tr>
+	</tfoot>
 </table>
+
+
 
 <hr>
 <a href="/">Back</a>
@@ -59,35 +69,43 @@
 <script>
 	$(document).ready(function(){
 		// load data
-		var $tbody = $('#table-collections>tbody');
+		var $table = $('#table-collections'),
+			$tbody;
 		
 		var tmp = location.search.match(/[?&]_id=([^&]*)/),
 			user_id = tmp? tmp[1]: -1;
-		$.get('/do_check_user?_id='+ user_id, function(reply){
+		$.get('/do_check_user', function(reply){
 			if (reply['ok']) {
-				var user = reply['user'];
+				var user = reply['user'],
+					$tmp = $('<div>');
 				$.each(user['_colls'], function(i, coll){
 					$(['<tr>',
 						'<td>'+ coll['name'] +'</td>',
 						'<td>'+ coll['fields'] +'</td>',
 						'<td>'+ coll['summary'] +'</td>',
 						'<td>'+ '<a href="/check_coll/?_name='+ coll['name'] +'">详细</a>' +'</td>',
-					'</tr>'].join('')).appendTo($tbody);
+					'</tr>'].join('')).appendTo($tmp);
 				});
+				$table.find('tbody').html($tmp.html());
 				
 				// set default values
 				$form.find('[name="username"]').attr('value', user['username']);
-				$form.find('[name="password"]').attr('value', user['password']);
 				$form.find('[name="summary"]').text(user['summary']);
 			} else {
 				alert(reply['msg']);
 			}
 		});
 		
+		
+		// button create
+		$table.find('#btn-create').on('click', function(ev){
+			location.href = '/create_coll/';
+		});
+		
 		//form submit
 		var $form = $('#form-modify');
-		$form.find('#btn_drop').on('click', function(){
-			$.post('/do_drop/?_id=' + user_id, function(reply){
+		$form.find('#btn-drop').on('click', function(){
+			$.post('/do_drop', function(reply){
 				alert(reply['msg']);
 				
 				if (reply['ok']) {
@@ -96,12 +114,7 @@
 			});
 		});
 		$form.on('submit', function(ev){
-			var $form = $(this);
-			
-			var pass = $form.find('[name="password"]').val(),
-				pass_again = $form.find('#input-again').val();
-			if (pass_again !== pass) {
-				alert('Not Match');
+			if (! validate()) {
 				return false;
 			}
 			
@@ -114,6 +127,16 @@
 			});
 			
 			return false;
+			
+			function validate(){
+				var pass = $form.find('[name="password"]').val(),
+					pass_again = $form.find('#input-again').val();
+				if (pass && pass_again !== pass) {
+					alert('Not Match');
+					return false;
+				}
+				return true;
+			}
 		});
 	});
 </script>

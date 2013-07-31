@@ -48,10 +48,7 @@
 		$('#form-reg').on('submit', function(ev){
 			var $form = $(this);
 			
-			var pass = $form.find('[name="password"]').val(),
-				pass_again = $form.find('#input-again').val();
-			if (pass_again !== pass) {
-				alert('Not Match');
+			if (! validate()) {
 				return false;
 			}
 			
@@ -59,11 +56,21 @@
 				alert(reply['msg']);
 				
 				if (reply['ok']) {
-					location.href = '/check_user/?_id=' + reply['_id'];
+					location.href = '/check_user/';
 				}
 			});
 			
 			return false;
+			
+			function validate(){
+				var pass = $form.find('[name="password"]').val(),
+					pass_again = $form.find('#input-again').val();
+				if (pass_again !== pass) {
+					alert('Not Match');
+					return false;
+				}
+				return true;
+			}
 		});
 	});
 </script>
