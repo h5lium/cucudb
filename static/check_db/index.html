@@ -2,7 +2,7 @@
 	<legend>Modify My Account</legend>
 	
 	<div class="control-group">
-		<label>Username</label>
+		<label>DB Name</label>
 		<div class="controls">
 			<input type="text" name="username">
 		</div>
@@ -39,7 +39,7 @@
 
 
 <table id="table-collections">
-	<caption>My Collections</caption>
+	<caption>Collections</caption>
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -69,28 +69,25 @@
 <script>
 	$(document).ready(function(){
 		// load data
-		var $table = $('#table-collections'),
-			$tbody;
+		var $table = $('#table-collections');
 		
-		var tmp = location.search.match(/[?&]_id=([^&]*)/),
-			user_id = tmp? tmp[1]: -1;
-		$.get('/do_check_user', function(reply){
+		$.get('/do_check_db', function(reply){
 			if (reply['ok']) {
-				var user = reply['user'],
-					$tmp = $('<div>');
-				$.each(user['_colls'], function(i, coll){
+				var db = reply['db'];
+				var $tbody = $table.find('tbody').hide();
+				$.each(db['_colls'], function(i, coll){
 					$(['<tr>',
 						'<td>'+ coll['name'] +'</td>',
 						'<td>'+ coll['fields'] +'</td>',
 						'<td>'+ coll['summary'] +'</td>',
-						'<td>'+ '<a href="/check_coll/?_name='+ coll['name'] +'">详细</a>' +'</td>',
-					'</tr>'].join('')).appendTo($tmp);
+						'<td>'+ '<a href="/check_coll/?coll='+ coll['name'] +'">详细</a>' +'</td>',
+					'</tr>'].join('')).appendTo($tbody);
 				});
-				$table.find('tbody').html($tmp.html());
+				$tbody.show();
 				
 				// set default values
-				$form.find('[name="username"]').attr('value', user['username']);
-				$form.find('[name="summary"]').text(user['summary']);
+				$form.find('[name="username"]').attr('value', db['username']);
+				$form.find('[name="summary"]').text(db['summary']);
 			} else {
 				alert(reply['msg']);
 			}
@@ -101,6 +98,7 @@
 		$table.find('#btn-create').on('click', function(ev){
 			location.href = '/create_coll/';
 		});
+		
 		
 		//form submit
 		var $form = $('#form-modify');
@@ -118,7 +116,7 @@
 				return false;
 			}
 			
-			$.post('/do_modify_user', $form.getFormData(), function(reply){
+			$.post('/do_modify_db', $form.getFormData(), function(reply){
 				alert(reply['msg']);
 				
 				if (reply['ok']) {

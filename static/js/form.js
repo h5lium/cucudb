@@ -1,26 +1,5 @@
 (function(){
-    /* jQuery form plugin */
-    
-    /*$.fn.getFormData = function(){
-        var json = {};
-        var serialized = $(this).serialize();
-        var segs = serialized? serialized.split('&'): [];
-        _.each(segs, function(seg, i){
-            var tmp = seg.split('=');
-            var key = tmp[0], value = decodeURIComponent(tmp[1]);
-            if (! _.has(json, key)) {
-                json[key] = value;
-            } else {
-                if (! _.isArray(json[key])) {
-                    json[key] = [json[key]];    // changed into Array
-                }
-                json[key].push(value);
-            }
-        });
-        return json;
-    }*/
-
-    // unstable
+    /* jQuery form-data plugin */
     $.fn.getFormData = function(){
         var json = {};
         $(this).find('[name]').each(function(i, el){
@@ -57,3 +36,20 @@
         });
     });
 })();
+
+
+(function(){
+    /* jQuery check-all plugin */
+    function onChange(ev){
+        var $this = $(this);
+        var $group = $this.closest('form').find('input[name="'+ $this.data('name') +'"]');
+
+        $group.each(function(i, el){
+            el.checked = $this.is(':checked');
+        });
+    }
+    $(function(){
+        $('body').delegate('input.check-all', 'change', onChange);
+    });
+})();
+

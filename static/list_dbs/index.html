@@ -1,0 +1,41 @@
+<table id="table-dbs">
+	<caption>List Of All DBs</caption>
+	<thead>
+		<tr>
+			<th>_id</th>
+			<th>DB Name</th>
+			<th>Password</th>
+			<th>Summary</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
+
+<hr>
+<a href="/">Back</a>
+
+<script src="/plug/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		var $table = $('#table-dbs');
+		
+		$.get('/do_list_dbs', function(reply){
+			if (reply['ok']) {
+				var $tbody = $table.find('tbody').hide();
+				$.each(reply['dbs'], function(i, db){
+					$(['<tr>',
+						'<td>'+ db['_id'] +'</td>',
+						'<td>'+ db['username'] +'</td>',
+						'<td>'+ db['password'] +'</td>',
+						'<td>'+ db['summary'] +'</td>',
+						'<td>'+ '<a href="/check_db/?_id='+ db['_id'] +'">详细</a>' +'</td>',
+					'</tr>'].join('')).appendTo($tbody);
+				});
+				$tbody.show();
+			} else {
+				alert(reply['msg']);
+			}
+		});
+	});
+</script>

@@ -42,11 +42,6 @@
 <script src="/js/form.js"></script>
 <script>
 	$(document).ready(function(){
-		// load data
-		var tmp = location.search.match(/[?&]_id=([^&]*)/),
-			user_id = tmp? tmp[1]: -1;
-		
-		
 		//form submit
 		var coll_name;
 		var $form = $('#form-create');
@@ -57,7 +52,7 @@
 				alert(reply['msg']);
 				
 				if (reply['ok']) {
-					location.href = '/check_coll/?name=' + coll_name;
+					location.href = '/check_coll/?coll=' + coll_name;
 				}
 			});
 			

@@ -1,0 +1,102 @@
+<form id="form-remove">
+	<table id="table-records">
+		<caption>Records</caption>
+		<thead></thead>
+		<tbody></tbody>
+		<tfoot>
+			<tr>
+				<td colspan="4">
+					<input type="submit" value="Remove">
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+
+
+<form id="form-add">
+	<legend>Add A Record</legend>
+	<div id="values"></div>
+	<input type="submit" value="Add">
+</form>
+
+
+<hr>
+<a href="/">Back</a>
+
+<script src="/plug/jquery/jquery.min.js"></script>
+<script src="/plug/underscore/underscore-min.js"></script>
+<script src="/js/form.js"></script>
+<script>
+	$(document).ready(function(){
+		// load data
+		var $table = $('#table-records'),
+			$form_remove = $('#form-remove'),
+			$form_add = $('#form-add');
+		
+		var coll_name = (function(){
+			var tmp = location.search.match(/[?&]coll=([^&]*)/);
+			return tmp? tmp[1]: '';
+		})();
+		
+		$.get('/do_check_coll?coll='+ coll_name, function(reply){
+			if (reply['ok']) {
+				var fields = reply['fields'],
+					records = reply['_records'];
+				
+				
+				var $thead = $table.find('thead'),
+					$tr = $('<tr>').append('<input type="checkbox" class="check-all" data-name="selected">');
+				var $values = $form_add.find('#values');
+				_.each(fields, function(field){
+					$('<th>').text(field).appendTo($tr);
+					
+					// values
+					var sys = ['_id'];
+					if (! _.contains(sys, field)) {
+						$('<input type="text" name="values">').appendTo($values);
+					}
+				});
+				$tr.appendTo($thead);
+				
+				var $tbody = $table.find('tbody').hide();
+				_.each(records, function(record){
+					var $tr = $('<tr>').append($('<input type="checkbox" name="selected">').attr('value', record['_id']));
+					_.each(fields, function(field){
+						$('<td>').text(record[field]).appendTo($tr);
+					});
+					$tr.appendTo($tbody);
+				});
+				$tbody.show();
+			} else {
+				alert(reply['msg']);
+			}
+		});
+		
+		
+		//form submit
+		$form_remove.on('submit', function(ev){
+			$.post('/do_remove_records?coll='+ coll_name, $form_remove.getFormData(), function(reply){
+				alert(reply['msg']);
+				
+				if (reply['ok']) {
+					location.reload();
+				}
+			});
+			
+			return false;
+		});
+		
+		$form_add.on('submit', function(ev){
+			$.post('/do_add_record?coll='+ coll_name, $form_add.getFormData(), function(reply){
+				alert(reply['msg']);
+				
+				if (reply['ok']) {
+					location.reload();
+				}
+			});
+			
+			return false;
+		});
+	});
+</script>

@@ -2,7 +2,7 @@
 	<legend>Login</legend>
 	
 	<div class="control-group">
-		<label>Username</label>
+		<label>DB Name</label>
 		<div class="controls">
 			<input type="text" name="username">
 		</div>
@@ -38,7 +38,7 @@
 				alert(reply['msg']);
 				
 				if (reply['ok']) {
-					location.href = '/check_user/';
+					location.href = '/check_db/';
 				}
 			});
 			
