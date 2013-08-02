@@ -1,5 +1,7 @@
+
+
 <form id="form-modify">
-	<legend>Modify My Account</legend>
+	<legend>Modify My DB</legend>
 	
 	<div class="control-group">
 		<label>DB Name</label>
@@ -9,13 +11,13 @@
 	</div>
 	
 	<div class="control-group">
-		<label>Password</label>
+		<label>New Password</label>
 		<div class="controls">
 			<input type="password" name="password">
 		</div>
 	</div>
 	<div class="control-group">
-		<label>Password Again</label>
+		<label>New Password Again</label>
 		<div class="controls">
 			<input type="password" id="input-again">
 		</div>
@@ -38,25 +40,60 @@
 </form>
 
 
-<table id="table-collections">
-	<caption>Collections</caption>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Fields</th>
-			<th>Summary</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody></tbody>
-	<tfoot>
-		<tr>
-			<td colspan="4">
-				<button id="btn-create">Create</button>
-			</td>
-		</tr>
-	</tfoot>
-</table>
+<form id="form-remove">
+	<table id="table-collections">
+		<caption>Collections</caption>
+		<thead>
+			<tr>
+				<th>
+					<input type="checkbox" class="check-all" data-name="names">
+				</th>
+				<th>Name</th>
+				<th>Fields</th>
+				<th>Summary</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<input type="submit" value="Remove">
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+
+
+<form id="form-add">
+	<legend>Add A Collection</legend>
+	
+	<div class="control-group">
+		<label>Collection Name</label>
+		<div class="controls">
+			<input type="text" name="name">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label>Feilds</label>
+		<div class="controls" id="div-fields"></div>
+	</div>
+	
+	<div class="control-group">
+		<label>Summary</label>
+		<div class="controls">
+			<textarea name="summary" rows="4" cols="30"></textarea>
+		</div>
+	</div>
+	
+	 <div class="control-group">
+		<div class="controls">
+			<input type="submit" value="Add">
+		</div>
+	</div>
+</form>
 
 
 
@@ -68,17 +105,33 @@
 <script src="/js/form.js"></script>
 <script>
 	$(document).ready(function(){
-		// load data
-		var $table = $('#table-collections');
+		var $table = $('#table-collections'),
+			$form_modify = $('#form-modify'),
+			$form_remove = $('#form-remove'),
+			$form_add = $('#form-add');
 		
+		
+		var sysFields = ['_id'],
+		maxNumUserFields = 4,
+		maxNumFields = sysFields.length + maxNumUserFields;
+		
+		
+		// load data
 		$.get('/do_check_db', function(reply){
 			if (reply['ok']) {
 				var db = reply['db'];
 				var $tbody = $table.find('tbody').hide();
 				$.each(db['_colls'], function(i, coll){
 					$(['<tr>',
+						'<td>',
+							'<input type="checkbox" name="names" value="'+ coll['name'] +'">',
+						'</td>',
 						'<td>'+ coll['name'] +'</td>',
-						'<td>'+ coll['fields'] +'</td>',
+						'<td>'+ _(coll['fields']).chain().map(function(val){
+							return '`' + val + '`';
+						}).reduce(function(sum, val){
+							return sum + ', ' + val;
+						}).value() +'</td>',
 						'<td>'+ coll['summary'] +'</td>',
 						'<td>'+ '<a href="/check_coll/?coll='+ coll['name'] +'">详细</a>' +'</td>',
 					'</tr>'].join('')).appendTo($tbody);
@@ -86,8 +139,8 @@
 				$tbody.show();
 				
 				// set default values
-				$form.find('[name="username"]').attr('value', db['username']);
-				$form.find('[name="summary"]').text(db['summary']);
+				$form_modify.find('[name="username"]').attr('value', db['username']);
+				$form_modify.find('[name="summary"]').text(db['summary']);
 			} else {
 				alert(reply['msg']);
 			}
@@ -101,8 +154,7 @@
 		
 		
 		//form submit
-		var $form = $('#form-modify');
-		$form.find('#btn-drop').on('click', function(){
+		$form_modify.find('#btn-drop').on('click', function(){
 			$.post('/do_drop', function(reply){
 				alert(reply['msg']);
 				
@@ -111,12 +163,12 @@
 				}
 			});
 		});
-		$form.on('submit', function(ev){
+		$form_modify.on('submit', function(ev){
 			if (! validate()) {
 				return false;
 			}
 			
-			$.post('/do_modify_db', $form.getFormData(), function(reply){
+			$.post('/do_modify_db', $form_modify.getFormData(), function(reply){
 				alert(reply['msg']);
 				
 				if (reply['ok']) {
@@ -127,14 +179,60 @@
 			return false;
 			
 			function validate(){
-				var pass = $form.find('[name="password"]').val(),
-					pass_again = $form.find('#input-again').val();
+				var pass = $form_modify.find('[name="password"]').val(),
+					pass_again = $form_modify.find('#input-again').val();
 				if (pass && pass_again !== pass) {
 					alert('Not Match');
 					return false;
 				}
 				return true;
 			}
+		});
+		
+		$form_remove.on('submit', function(ev){
+			$.post('/do_remove_colls', $form_remove.getFormData(), function(reply){
+				alert(reply['msg']);
+				
+				if (reply['ok']) {
+					location.reload();
+				}
+			});
+			
+			return false;
+		});
+		
+		
+		
+		var $div_fields = $form_add.find('#div-fields');
+		_.each(sysFields, function(val){
+			$div_fields.append(['<div>',
+				'<input type="checkbox" checked disabled>',
+				'<input type="text" value="'+ val +'" readonly>',
+			'</div>']);
+		});
+		_.times(maxNumUserFields, function(){
+			$div_fields.append(['<div>',
+				'<input type="checkbox" class="tick-toggle">',
+				'<input type="text" name="fields" disabled>',
+			'</div>']);
+		});
+		$div_fields.find('.tick-toggle').click(function(){
+			$(this).next().attr('disabled', ! $(this).is(':checked'));
+		});
+		
+		
+		$form_add.on('submit', function(ev){
+			var coll_name = $form_add.find('[name="name"]').val();
+			
+			$.post('/do_add_coll', $form_add.getFormData(), function(reply){
+				alert(reply['msg']);
+				
+				if (reply['ok']) {
+					location.href = '/check_coll/?coll=' + coll_name;
+				}
+			});
+			
+			return false;
 		});
 	});
 </script>

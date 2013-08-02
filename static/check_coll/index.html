@@ -1,11 +1,11 @@
 <form id="form-remove">
 	<table id="table-records">
-		<caption>Records</caption>
+		<caption></caption>
 		<thead></thead>
 		<tbody></tbody>
 		<tfoot>
 			<tr>
-				<td colspan="4">
+				<td class="td-master" colspan="1">
 					<input type="submit" value="Remove">
 				</td>
 			</tr>
@@ -30,23 +30,28 @@
 <script>
 	$(document).ready(function(){
 		// load data
-		var $table = $('#table-records'),
+		var $table_records = $('#table-records'),
 			$form_remove = $('#form-remove'),
 			$form_add = $('#form-add');
 		
 		var coll_name = (function(){
-			var tmp = location.search.match(/[?&]coll=([^&]*)/);
-			return tmp? tmp[1]: '';
-		})();
+				var tmp = location.search.match(/[?&]coll=([^&]*)/);
+				return tmp? tmp[1]: '';
+			})();
+		
+		$table_records.find('caption').text('Records Of `' + coll_name + '`');
 		
 		$.get('/do_check_coll?coll='+ coll_name, function(reply){
 			if (reply['ok']) {
 				var fields = reply['fields'],
 					records = reply['_records'];
 				
+				$table_records.find('.td-master').attr('colspan', 1 + fields.length);
 				
-				var $thead = $table.find('thead'),
-					$tr = $('<tr>').append('<input type="checkbox" class="check-all" data-name="selected">');
+				var $thead = $table_records.find('thead'),
+					$tr = $('<tr>').append(['<th>',
+						'<input type="checkbox" class="check-all" data-name="_ids">',
+					'</th>'].join(''));
 				var $values = $form_add.find('#values');
 				_.each(fields, function(field){
 					$('<th>').text(field).appendTo($tr);
@@ -59,9 +64,11 @@
 				});
 				$tr.appendTo($thead);
 				
-				var $tbody = $table.find('tbody').hide();
+				var $tbody = $table_records.find('tbody').hide();
 				_.each(records, function(record){
-					var $tr = $('<tr>').append($('<input type="checkbox" name="selected">').attr('value', record['_id']));
+					var $tr = $('<tr>').append(['<td>', 
+							'<input type="checkbox" name="_ids" value="'+ record['_id'] +'">',
+						'</td>'].join(''));
 					_.each(fields, function(field){
 						$('<td>').text(record[field]).appendTo($tr);
 					});

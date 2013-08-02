@@ -4,7 +4,7 @@
         var json = {};
         $(this).find('[name]').each(function(i, el){
             var $el = $(el);
-            if (! $el.is(':checkbox') || $el.is(':checked')) {
+            if (! $el.is(':disabled') || ! $el.is(':checkbox') || $el.is(':checked')) {
                 var key = $el.attr('name'),
                     value = $el.val();
                 if (! _.has(json, key)) {
