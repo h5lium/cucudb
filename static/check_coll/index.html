@@ -1,47 +1,46 @@
-<form id="form-remove">
-	<table id="table-records">
-		<caption></caption>
-		<thead></thead>
-		<tbody></tbody>
-		<tfoot>
-			<tr>
-				<td class="td-master" colspan="1">
-					<input type="submit" value="Remove">
-				</td>
-			</tr>
-		</tfoot>
-	</table>
-</form>
+<div id="wrapper">
+	<div class="block">
+		<form id="form-remove">
+			<table id="table-records" class="table table-striped">
+				<caption></caption>
+				<thead></thead>
+				<tbody></tbody>
+				<tfoot>
+					<tr>
+						<td class="td-master" colspan="1">
+							<input type="submit" value="Remove" class="btn btn-danger">
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+	</div>
+	
+	<div class="block">
+		<form id="form-add" class="form-horizontal">
+			<legend>Add A Record</legend>
+			<div class="control-group">
+				<input type="submit" value="Add" class="btn btn-success">
+			</div>
+		</form>
+	</div>
+</div>
 
 
-<form id="form-add">
-	<legend>Add A Record</legend>
-	<div id="values"></div>
-	<input type="submit" value="Add">
-</form>
 
-
-<hr>
-<a href="/">Back</a>
-
-<script src="/plug/jquery/jquery.min.js"></script>
-<script src="/plug/underscore/underscore-min.js"></script>
-<script src="/js/form.js"></script>
 <script>
-	$(document).ready(function(){
+	(function(){
 		// load data
-		var $table_records = $('#table-records'),
-			$form_remove = $('#form-remove'),
-			$form_add = $('#form-add');
+		var $wrapper = $('#wrapper'),
+			$table_records = $wrapper.find('#table-records'),
+			$form_remove = $wrapper.find('#form-remove'),
+			$form_add = $wrapper.find('#form-add');
 		
-		var coll_name = (function(){
-				var tmp = location.search.match(/[?&]coll=([^&]*)/);
-				return tmp? tmp[1]: '';
-			})();
+		var coll_name = _.frame.getParam('coll');
 		
 		$table_records.find('caption').text('Records Of `' + coll_name + '`');
 		
-		$.get('/do_check_coll?coll='+ coll_name, function(reply){
+		$.get('/do_check_coll/?coll='+ coll_name, function(reply){
 			if (reply['ok']) {
 				var fields = reply['fields'],
 					records = reply['_records'];
@@ -59,7 +58,12 @@
 					// values
 					var sys = ['_id'];
 					if (! _.contains(sys, field)) {
-						$('<input type="text" name="values">').appendTo($values);
+						$(['<div class="control-group">',
+							'<label class="control-label">'+ field +'</label>',
+							'<div class="controls">',
+								'<input type="text" name="values">',
+							'</div>',
+						'</div>'].join('')).insertBefore('#form-add>.control-group:last');
 					}
 				});
 				$tr.appendTo($thead);
@@ -76,18 +80,18 @@
 				});
 				$tbody.show();
 			} else {
-				alert(reply['msg']);
+				_.frame.notify(reply['msg']);
 			}
 		});
 		
 		
 		//form submit
 		$form_remove.on('submit', function(ev){
-			$.post('/do_remove_records?coll='+ coll_name, $form_remove.getFormData(), function(reply){
-				alert(reply['msg']);
+			$.post('/do_remove_records/?coll='+ coll_name, $form_remove.getFormData(), function(reply){
+				_.frame.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					location.reload();
+					_.frame.reload();
 				}
 			});
 			
@@ -95,15 +99,15 @@
 		});
 		
 		$form_add.on('submit', function(ev){
-			$.post('/do_add_record?coll='+ coll_name, $form_add.getFormData(), function(reply){
-				alert(reply['msg']);
+			$.post('/do_add_record/?coll='+ coll_name, $form_add.getFormData(), function(reply){
+				_.frame.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					location.reload();
+					_.frame.reload();
 				}
 			});
 			
 			return false;
 		});
-	});
+	})();
 </script>

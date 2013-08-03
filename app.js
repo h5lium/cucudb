@@ -27,6 +27,12 @@ app.configure(function(){
     app.use(express.session({
     	secret: 'thats great'
     }));
+    
+    // debug
+    /*app.use(function(req, res, next){
+    	console.log(req.body);
+    	next();
+    });*/
 });
 
 // mongodb

@@ -1,48 +1,47 @@
-<form id="form-login">
-	<legend>Login</legend>
-	
-	<div class="control-group">
-		<label>DB Name</label>
-		<div class="controls">
-			<input type="text" name="username">
-		</div>
+<div id="wrapper">
+	<div class="block">
+		<form id="form-login" class="form-horizontal">
+			<legend>Login My DB</legend>
+			
+			<div class="control-group">
+				<label class="control-label">DB Name</label>
+				<div class="controls">
+					<input type="text" name="username">
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">Password</label>
+				<div class="controls">
+					<input type="password" name="password">
+				</div>
+			</div>
+			
+			 <div class="control-group">
+				<input type="submit" value="Login" class="btn btn-primary">
+			</div>
+		</form>
 	</div>
-	
-	<div class="control-group">
-		<label>Password</label>
-		<div class="controls">
-			<input type="password" name="password">
-		</div>
-	</div>
-	
-	 <div class="control-group">
-		<div class="controls">
-			<input type="submit" value="Login">
-		</div>
-	</div>
-</form>
+</div>
 
-<hr>
-<a href="/">Back</a>
 
-<script src="/plug/jquery/jquery.min.js"></script>
-<script src="/plug/underscore/underscore-min.js"></script>
-<script src="/js/form.js"></script>
 <script>
-	$(document).ready(function(){
+	(function(){
 		//form submit
-		$('#form-login').on('submit', function(ev){
+		var $wrapper = $('#wrapper'),
+			$form_login = $wrapper.find('#form-login');
+		$form_login.on('submit', function(ev){
 			var $form = $(this);
 			
 			$.post('/do_login', $form.getFormData(), function(reply){
-				alert(reply['msg']);
+				_.frame.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					location.href = '/check_db/';
+					_.frame.load('/check_db/');
 				}
 			});
 			
 			return false;
 		});
-	});
+	})();
 </script>

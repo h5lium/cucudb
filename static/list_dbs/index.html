@@ -1,25 +1,27 @@
-<table id="table-dbs">
-	<caption>List Of All DBs</caption>
-	<thead>
-		<tr>
-			<th>_id</th>
-			<th>DB Name</th>
-			<th>Password</th>
-			<th>Summary</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody></tbody>
-</table>
+<div id="wrapper">
+	<div class="block">
+		<table id="table-dbs" class="table table-striped">
+			<caption>List Of All DBs</caption>
+			<thead>
+				<tr>
+					<th>_id</th>
+					<th>DB Name</th>
+					<th>Password</th>
+					<th>Summary</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
 
-<hr>
-<a href="/">Back</a>
 
-<script src="/plug/jquery/jquery.min.js"></script>
 <script>
-	$(document).ready(function(){
-		var $table = $('#table-dbs');
-		
+	(function(){
+		// load data
+		var $wrapper = $('#wrapper'),
+			$table = $wrapper.find('#table-dbs');
 		$.get('/do_list_dbs', function(reply){
 			if (reply['ok']) {
 				var $tbody = $table.find('tbody').hide();
@@ -34,8 +36,8 @@
 				});
 				$tbody.show();
 			} else {
-				alert(reply['msg']);
+				_.frame.notify(reply['msg']);
 			}
 		});
-	});
+	})();
 </script>
