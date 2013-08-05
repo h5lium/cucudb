@@ -1,7 +1,4 @@
 /.project
 /.idea
-/node_modules/express
-/node_modules/mongodb
-/node_modules/underscore
 /*.zip
 /npm-debug.log
