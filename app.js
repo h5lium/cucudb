@@ -17,7 +17,6 @@ app.configure(function(){
 		app.use(express.favicon());
 		app.use(express.logger('dev'));
 	}
-	
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
@@ -51,7 +50,7 @@ function onDbInit(err, db){
 }
 
 
-// setup db from private config
+// setup db
 var dbConfig = require('./private/db_config.js')(app);
 mongo_init(dbConfig, onDbInit);
 

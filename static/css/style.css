@@ -22,16 +22,11 @@ table>caption {
 	border-top: 3px solid #e5e5e5;
 	padding: 10px 0;
 }
-#iconbar, #h1 {
+#loading, #h1 {
 	display: inline-block;
 }
-#iconbar {
+#loading {
 	margin-left: 8px;
-	min-width: 148px;
-	min-height: 32px;
-}
-#iconbar.loading {
-	background:	url("img/octocat-spinner-32.gif") no-repeat;
 }
 #nav li {
 	display: inline-block;

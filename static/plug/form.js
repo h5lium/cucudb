@@ -1,5 +1,16 @@
+
+/* underscore & jQuery plugin: form-data */
 (function(){
-    /* jQuery form-data plugin */
+	// detect
+	if (! window._) {
+		console.error('underscore.js required');
+	}
+	if (! window.$) {
+		console.error('jquery.js required');
+	}
+    
+    
+    // form-data
     $.fn.getFormData = function(){
         var json = {};
         $(this).find('[name]').each(function(i, el){
@@ -16,13 +27,12 @@
                     json[key].push(value);
                 }
             }
-
         });
-
-        console.log('submit:', json);
+		
+        console.info('submit:', json);
         return json;
     }
-
+    
     $(function(){
         // prevent all form default behaviors
         $('body').delegate('form', 'submit', function(ev){
@@ -35,11 +45,9 @@
             });
         });
     });
-})();
-
-
-(function(){
-    /* jQuery check-all plugin */
+	
+	
+	// check-all
     function onChange(ev){
         var $this = $(this);
         var $group = $this.closest('form').find('input[name="'+ $this.data('name') +'"]');
@@ -48,8 +56,13 @@
             el.checked = $this.is(':checked');
         });
     }
+    
     $(function(){
         $('body').delegate('input.check-all', 'change', onChange);
     });
+    
+    
+    // loaded
+    console.info('form.js loaded');
 })();
 
