@@ -7,56 +7,19 @@
 	
 	<link rel="stylesheet" href="/plug/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/plug/bootstrap/css/bootstrap-responsive.min.css">
-	<style>
-		@media (max-width: 480px) {
-			body {
-				padding: 10px !important;
-			}
-		}
-		body {
-			min-width: 320px;
-		}
-		/* if without responsive */
-		/*.form-horizontal .control-label {
-			padding-top: 0;
-		}*/
-		form>legend {
-			margin-bottom: 6px;
-			
-			width: 60%;
-			min-width: 200px;
-			max-width: 500px;
-		}
-		table>caption {
-			font-size: 21px;
-			margin: 8px 0 4px 0;
-		}
-		
-		
-		.block {
-			border-top: 3px solid #e5e5e5;
-			padding: 10px 0;
-		}
-		#nav li {
-			display: inline-block;
-			margin-right: 14px;
-		}
-		#nav li:before {
-			content: " | ";
-		}
-		
-		#frame {
-			margin-top: 20px;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 	<div class="container-fluid">
 		<header id="header">
-			<h3>Cucu DB Service</h3>
+			<h1 id="h1">Cucu DB Service</h1>
+			<div id="iconbar"></div>
 			<nav id="nav" class="nav">
 				<ul>
+					<li>
+						<a href="/home/">Home</a>
+					</li>
 					<li>
 						<a href="/list_dbs/">List DBs</a>
 					</li>
@@ -81,53 +44,6 @@
 	<script src="/plug/jquery/jquery.min.js"></script>
 	<script src="/plug/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/js/form.js"></script>
-	<script>
-		(function(){
-			var $body = $('body'),
-				$frame = $('#frame');
-			
-			
-			// utils
-			_.getParam = function(key, search){
-				search = search || location.search;
-				var tmp = search.match(new RegExp('[?&]'+ key +'=([^&]*)'));
-				return tmp? tmp[1]: '';
-			}
-			_.getHash = function(){
-				return location.hash.substr(1);
-			}
-			
-			_.frame = {};
-			_.frame.notify = function(msg){
-				alert(msg);
-			}
-			_.frame.load = function(url){
-				url = url? url: $frame.attr('data-url');
-				location.hash = url;
-				$frame.load(url).attr('data-url', url);
-			}
-			_.frame.reload = function(url){
-				_.frame.load();
-			}
-			_.frame.getURL = function(){
-				return $frame.attr('data-url');
-			}
-			_.frame.getParam = function(key){
-				var tmp = _.frame.getURL().match(/[^\?]+(.*)/);
-				var search = tmp? tmp[1]: '';
-				return _.getParam(key, search);
-			}
-			
-			
-			// links
-			var url = _.getHash();
-			_.frame.load(url || '/home/');
-			$body.delegate('[href]', 'click', function(ev){
-				var href = $(this).attr('href');
-				_.frame.load(href);
-				return false;
-			});
-		})();
-	</script>
+	<script src="/js/script.js"></script>
 </body>
 </html>

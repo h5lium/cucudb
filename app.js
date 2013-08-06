@@ -1,17 +1,14 @@
-// system dependencies
+
 var http = require('http'),
 	fs = require('fs');
-//  public dependencies
 var express = require('express'),
 	_ = require('underscore'),
 	mongodb = require('mongodb');
-// private dependencies
 var mongo_init = require('./lib/mongo_init.js');
 
 
 // setup app
 var app = express();
-// app config
 app.configure(function(){
 	app.set('appName', 'cucudb');
 	app.set('isOnBAE', fs.existsSync('./app/'));
@@ -36,7 +33,7 @@ app.configure(function(){
 
 
 // db init done
-function dbInitDone(err, db){
+function onDbInit(err, db){
 	app.set('db', db);
 	
 	 // router
@@ -46,7 +43,7 @@ function dbInitDone(err, db){
 	
 	// server
 	var server = http.createServer(app),
-		port = process.APP_PORT || process.env.PORT || 80;
+		port = process.APP_PORT || process.env.PORT || 8834;
 	
 	server.listen(port, function(){
 		console.info(app.get('appName'), 'listening on port', port);
@@ -54,22 +51,8 @@ function dbInitDone(err, db){
 }
 
 
-// db config
-var dbConfig;
-if (app.get('isOnBAE')) {
-	dbConfig = {
-		dbName: 'jZLPkbYQyPBckRgYZtxK',
-		host: process.env.BAE_ENV_ADDR_MONGO_IP,
-		port: process.env.BAE_ENV_ADDR_MONGO_PORT,
-		username: process.env.BAE_ENV_AK,
-		password: process.env.BAE_ENV_SK
-	}
-} else {
-	dbConfig = {
-		dbName: app.get('appName')
-	}
-}
-// init mongo
-mongo_init(dbConfig, dbInitDone);
+// setup db from private config
+var dbConfig = require('./private/db_config.js')(app);
+mongo_init(dbConfig, onDbInit);
 
 

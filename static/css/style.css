@@ -1,0 +1,46 @@
+@media (max-width: 480px) {
+	body {
+		padding: 10px !important;
+	}
+}
+body {
+	min-width: 320px;
+}
+form>legend {
+	margin-bottom: 2px;
+	width: 60%;
+	min-width: 200px;
+	max-width: 500px;
+}
+table>caption {
+	margin: 8px auto 6px;
+	font-size: 18px;
+}
+
+
+.block {
+	border-top: 3px solid #e5e5e5;
+	padding: 10px 0;
+}
+#iconbar, #h1 {
+	display: inline-block;
+}
+#iconbar {
+	margin-left: 8px;
+	min-width: 148px;
+	min-height: 32px;
+}
+#iconbar.loading {
+	background:	url("img/octocat-spinner-32.gif") no-repeat;
+}
+#nav li {
+	display: inline-block;
+	margin-right: 14px;
+}
+#nav li:before {
+	content: " | ";
+}
+
+#frame {
+	margin-top: 20px;
+}
