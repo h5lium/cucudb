@@ -24,6 +24,9 @@
 	scope.notify = function(msg){
 		alert(msg);
 	}
+	scope.route = function(url){
+		return url;
+	}
 	scope.load = function(url){
 		// relative path only
 		if (/\/\/|:\\/.test(url)) {
@@ -31,10 +34,25 @@
 			return;
 		}
 		
+		// route url
+		var path = (function(){
+				var tmp = url.match(/^([^\?]+)/);
+				return tmp? tmp[1]: '';
+			})(),
+			query = (function(){
+				var tmp = url.match(/(\?[^#]+)/);
+				return tmp? tmp[1]: '';
+			})(),
+			hash = (function(){
+				var tmp = url.match(/(#.+)$/);
+				return tmp? tmp[1]: '';
+			})();
+		var realURL = scope.route(url, path, query, hash);
+		
 		// load url
 		location.hash = url;
 		scope.$loading.addClass('on');
-		scope.$frame.load(url, onFrameLoad).attr('data-url', url);
+		scope.$frame.load(realURL, onFrameLoad).attr('data-url', url);
 	}
 	scope.reload = function(){
 		var url = scope.$frame.attr('data-url');
