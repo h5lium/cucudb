@@ -2,9 +2,8 @@
 var http = require('http'),
 	fs = require('fs');
 var express = require('express'),
-	_ = require('underscore'),
 	mongodb = require('mongodb');
-var mongo_init = require('./lib/mongo_init.js');
+var mongo_init = require('./lib/plug/mongo_init.js');
 
 
 // setup app
@@ -35,7 +34,7 @@ app.configure(function(){
 function onDbInit(err, db){
 	app.set('db', db);
 	
-	 // router
+	// router
 	require('./lib/router/')(app);
 	// static directory
 	app.use(express.static((app.get('isOnBAE')? './app': '.') + '/static'));

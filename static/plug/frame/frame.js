@@ -5,6 +5,9 @@
 	if (! window._) {
 		console.error('underscore.js required');
 	}
+	if (! window.$) {
+		console.error('jquery.js required');
+	}
 	
 	
 	// utils
@@ -17,49 +20,58 @@
 		return location.hash.substr(1);
 	}
 	
-	_.frame = {};
-	_.frame.notify = function(msg){
+	var scope = _.frame = {};
+	scope.notify = function(msg){
 		alert(msg);
 	}
-	_.frame.load = function(url){
-		url = url? url: _.frame.$frame.attr('data-url');
+	scope.load = function(url){
+		// relative path only
+		if (/\/\/|:\\/.test(url)) {
+			console.error('illegal url denied:', url);
+			return;
+		}
+		
+		// load url
 		location.hash = url;
-		_.frame.$loading.addClass('on');
-		_.frame.$frame.load(url, onFrameLoad).attr('data-url', url);
+		scope.$loading.addClass('on');
+		scope.$frame.load(url, onFrameLoad).attr('data-url', url);
 	}
-	_.frame.reload = function(url){
-		_.frame.load();
+	scope.reload = function(){
+		var url = scope.$frame.attr('data-url');
+		scope.load(url);
 	}
-	_.frame.getURL = function(){
-		return _.frame.$frame.attr('data-url');
+	scope.getURL = function(){
+		return scope.$frame.attr('data-url');
 	}
-	_.frame.getParam = function(key){
-		var tmp = _.frame.getURL().match(/[^\?]+(.*)/);
+	scope.getParam = function(key){
+		var tmp = scope.getURL().match(/[^\?]+(.*)/);
 		var search = tmp? tmp[1]: '';
 		return _.getParam(key, search);
 	}
 	function onFrameLoad(data, status, xhr){
 		if (status === 'success') {
 			_.delay(function(){
-				_.frame.$loading.removeClass('on');
+				scope.$loading.removeClass('on');
 			}, 300);
+		} else {
+			console.error('loading fail:', scope.getURL());
 		}
 	}
 	
 	
 	// config
-	_.frame.config = function(conf, url){
-		_.extend(_.frame, conf);
+	scope.config = function(conf, url){
+		_.extend(scope, conf);
 		
 		// bind links
-		_.frame.$scope.delegate('[href]', 'click', function(ev){
+		scope.$area.delegate('[href]', 'click', function(ev){
 			var href = $(this).attr('href');
-			_.frame.load(href);
+			scope.load(href);
 			return false;
 		});
 		
 		// first load
-		_.frame.load(url);
+		scope.load(url);
 	}
 	
 	

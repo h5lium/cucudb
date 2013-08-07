@@ -1,7 +1,7 @@
 (function(){
 	// frame
 	_.frame.config({
-		$scope: $('body'),
+		$area: $('body'),
 		$frame: $('#frame'),
 		$loading: $('#loading')
 	}, _.getHash() || '/home/');
