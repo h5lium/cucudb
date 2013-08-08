@@ -3,7 +3,7 @@ var http = require('http'),
 	fs = require('fs');
 var express = require('express'),
 	mongodb = require('mongodb');
-var mongo_init = require('./lib/plug/mongo_init.js');
+var dbinit = require('./lib/plugins/cuculibs/db/dbinit.js');
 
 
 // setup app
@@ -34,7 +34,7 @@ app.configure(function(){
 function onDbInit(err, db){
 	app.set('db', db);
 	
-	// router
+	// routers
 	require('./lib/router/')(app);
 	// static directory
 	app.use(express.static((app.get('isOnBAE')? './app': '.') + '/static'));
@@ -51,6 +51,6 @@ function onDbInit(err, db){
 
 // setup db
 var dbConfig = require('./private/db_config.js')(app);
-mongo_init(dbConfig, onDbInit);
+dbinit(dbConfig, onDbInit);
 
 

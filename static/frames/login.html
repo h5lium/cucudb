@@ -34,10 +34,10 @@
 			var $form = $(this);
 			
 			$.post('/do_login', $form.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.load('/check_db/');
+					$.frame.load('check_db');
 				}
 			});
 			

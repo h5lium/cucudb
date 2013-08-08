@@ -36,7 +36,7 @@
 			$form_remove = $wrapper.find('#form-remove'),
 			$form_add = $wrapper.find('#form-add');
 		
-		var coll_name = _.frame.getParam('coll');
+		var coll_name = $.frame.getParam('coll');
 		
 		$table_records.find('caption').text('Records Of `' + coll_name + '`');
 		
@@ -49,7 +49,7 @@
 				
 				var $thead = $table_records.find('thead'),
 					$tr = $('<tr>').append(['<th>',
-						'<input type="checkbox" class="check-all" data-name="_ids">',
+						'<input type="checkbox" class="check-all" data-name="_ids[]">',
 					'</th>'].join(''));
 				var $values = $form_add.find('#values');
 				_.each(fields, function(field){
@@ -61,7 +61,7 @@
 						$(['<div class="control-group">',
 							'<label class="control-label">'+ field +'</label>',
 							'<div class="controls">',
-								'<input type="text" name="values">',
+								'<input type="text" name="values[]">',
 							'</div>',
 						'</div>'].join('')).insertBefore('#form-add>.control-group:last');
 					}
@@ -71,7 +71,7 @@
 				var $tbody = $table_records.find('tbody').hide();
 				_.each(records, function(record){
 					var $tr = $('<tr>').append(['<td>', 
-							'<input type="checkbox" name="_ids" value="'+ record['_id'] +'">',
+							'<input type="checkbox" name="_ids[]" value="'+ record['_id'] +'">',
 						'</td>'].join(''));
 					_.each(fields, function(field){
 						$('<td>').text(record[field]).appendTo($tr);
@@ -80,7 +80,7 @@
 				});
 				$tbody.show();
 			} else {
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 			}
 		});
 		
@@ -88,10 +88,10 @@
 		//form submit
 		$form_remove.on('submit', function(ev){
 			$.post('/do_remove_records/?coll='+ coll_name, $form_remove.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.reload();
+					$.frame.reload();
 				}
 			});
 			
@@ -100,10 +100,10 @@
 		
 		$form_add.on('submit', function(ev){
 			$.post('/do_add_record/?coll='+ coll_name, $form_add.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.reload();
+					$.frame.reload();
 				}
 			});
 			

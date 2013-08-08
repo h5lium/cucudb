@@ -52,10 +52,10 @@
 			}
 			
 			$.post('/do_reg', $form.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.frame.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.load('/check_db/');
+					$.frame.load('check_db');
 				}
 			});
 			
@@ -65,7 +65,7 @@
 				var pass = $form.find('[name="password"]').val(),
 					pass_again = $form.find('#input-again').val();
 				if (pass_again !== pass) {
-					_.frame.notify('Not Match');
+					$.notify('Not Match');
 					return false;
 				}
 				return true;

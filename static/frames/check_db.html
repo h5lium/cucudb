@@ -61,7 +61,7 @@
 				<thead>
 					<tr>
 						<th>
-							<input type="checkbox" class="check-all" data-name="names">
+							<input type="checkbox" class="check-all" data-name="names[]">
 						</th>
 						<th>Name</th>
 						<th>Fields</th>
@@ -136,16 +136,16 @@
 				$.each(db['_colls'], function(i, coll){
 					$(['<tr>',
 						'<td>',
-							'<input type="checkbox" name="names" value="'+ coll['name'] +'">',
+							'<input type="checkbox" name="names[]" value="'+ coll['name'] +'">',
 						'</td>',
 						'<td>'+ coll['name'] +'</td>',
-						'<td>'+ _(coll['fields']).chain().map(function(val){
+						'<td>'+ _(coll['fields']).map(function(val){
 							return '`' + val + '`';
 						}).reduce(function(sum, val){
 							return sum + ', ' + val;
-						}).value() +'</td>',
+						}) +'</td>',
 						'<td>'+ coll['summary'] +'</td>',
-						'<td>'+ '<a href="/check_coll/?coll='+ coll['name'] +'">View</a>' +'</td>',
+						'<td>'+ '<a href="check_coll?coll='+ coll['name'] +'">View</a>' +'</td>',
 					'</tr>'].join('')).appendTo($tbody);
 				});
 				$tbody.show();
@@ -154,24 +154,24 @@
 				$form_modify.find('[name="username"]').attr('value', db['username']);
 				$form_modify.find('[name="summary"]').text(db['summary']);
 			} else {
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 			}
 		});
 		
 		
 		// button create
 		$table.find('#btn-create').on('click', function(ev){
-			_.frame.load('/create_coll/');
+			$.frame.load('create_coll');
 		});
 		
 		
 		//form submit
 		$form_modify.find('#btn-drop').on('click', function(){
 			$.post('/do_drop', function(reply){
-				_.frame.notify(reply['msg']);
+				$.frame.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.load('/login/');
+					$.frame.load('login');
 				}
 			});
 		});
@@ -181,10 +181,10 @@
 			}
 			
 			$.post('/do_modify_db', $form_modify.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.reload();
+					$.frame.reload();
 				}
 			});
 			
@@ -194,7 +194,7 @@
 				var pass = $form_modify.find('[name="password"]').val(),
 					pass_again = $form_modify.find('#input-again').val();
 				if (pass && pass_again !== pass) {
-					_.frame.notify('Not Match');
+					$.frame.notify('Not Match');
 					return false;
 				}
 				return true;
@@ -203,10 +203,10 @@
 		
 		$form_remove.on('submit', function(ev){
 			$.post('/do_remove_colls', $form_remove.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.reload();
+					$.frame.reload();
 				}
 			});
 			
@@ -225,7 +225,7 @@
 		_.times(maxNumUserFields, function(){
 			$div_fields.append(['<div>',
 				'<input type="checkbox" class="tick-toggle">',
-				'<input type="text" name="fields" disabled>',
+				'<input type="text" name="fields[]" disabled>',
 			'</div>'].join(''));
 		});
 		$div_fields.find('.tick-toggle').on('change', function(){
@@ -237,10 +237,10 @@
 			var coll_name = $form_add.find('[name="name"]').val();
 			
 			$.post('/do_add_coll', $form_add.getFormData(), function(reply){
-				_.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					_.frame.load('/check_coll/?coll=' + coll_name);
+					$.frame.load('check_coll?coll=' + coll_name);
 				}
 			});
 			
