@@ -161,17 +161,17 @@
 		
 		// button create
 		$table.find('#btn-create').on('click', function(ev){
-			$.frame.load('create_coll');
+			$frame.path('create_coll');
 		});
 		
 		
 		//form submit
 		$form_modify.find('#btn-drop').on('click', function(){
 			$.post('/do_drop', function(reply){
-				$.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					$.frame.load('login');
+					$frame.path('login');
 				}
 			});
 		});
@@ -184,7 +184,7 @@
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					$.frame.reload();
+					$frame.repath();
 				}
 			});
 			
@@ -194,7 +194,7 @@
 				var pass = $form_modify.find('[name="password"]').val(),
 					pass_again = $form_modify.find('#input-again').val();
 				if (pass && pass_again !== pass) {
-					$.frame.notify('Not Match');
+					$.notify('Not Match');
 					return false;
 				}
 				return true;
@@ -206,7 +206,7 @@
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					$.frame.reload();
+					$frame.repath();
 				}
 			});
 			
@@ -240,7 +240,7 @@
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					$.frame.load('check_coll?coll=' + coll_name);
+					$frame.pathin('check_coll?coll='+ coll_name);
 				}
 			});
 			

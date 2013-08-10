@@ -8,7 +8,6 @@
 					<th>DB Name</th>
 					<th>Password</th>
 					<th>Summary</th>
-					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -31,7 +30,6 @@
 						'<td>'+ db['username'] +'</td>',
 						'<td>'+ db['password'] +'</td>',
 						'<td>'+ db['summary'] +'</td>',
-						'<td>'+ '<a href="check_db?_id='+ db['_id'] +'">View</a>' +'</td>',
 					'</tr>'].join('')).appendTo($tbody);
 				});
 				$tbody.show();

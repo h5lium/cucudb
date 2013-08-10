@@ -52,10 +52,10 @@
 			}
 			
 			$.post('/do_reg', $form.getFormData(), function(reply){
-				$.frame.notify(reply['msg']);
+				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					$.frame.load('check_db');
+					$frame.path('check_db');
 				}
 			});
 			

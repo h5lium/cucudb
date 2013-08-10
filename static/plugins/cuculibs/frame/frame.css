@@ -1,7 +1,0 @@
-#loading {
-	width: 32px;
-	height: 32px;
-}
-#loading.on {
-	background:	url("img/octocat-spinner-32.gif") no-repeat;
-}

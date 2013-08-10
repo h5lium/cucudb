@@ -2,12 +2,8 @@
 /* underscore & jQuery plugin: form-data */
 (function(){
 	// detect
-	if (! window._) {
-		console.error('underscore.js required');
-	}
-	if (! window.$) {
-		console.error('jquery.js required');
-	}
+	window._ || console.error('underscore.js required');
+	window.$ || console.error('jquery.js required');
 	
 	
 	// form-data
