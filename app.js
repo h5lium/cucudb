@@ -50,7 +50,7 @@ function onDbInit(err, db){
 
 
 // setup db
-var dbConfig = require('./private/db_config.js')(app);
-dbinit(dbConfig, onDbInit);
+var dbConf = require('./config/db.js')(app);
+dbinit(dbConf, onDbInit);
 
 

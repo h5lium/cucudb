@@ -2,4 +2,4 @@
 /.idea
 /*.zip
 /npm-debug.log
-/private
+/config/db.js
