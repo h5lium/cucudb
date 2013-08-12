@@ -1,68 +1,65 @@
 
 
 var dbinit = require('./lib/plugins/cuculibs/db/dbinit.js');
+var Dao = require('./lib/plugins/cuculibs/db/Dao.js');
 
-
-var UserDao = require('./lib/dao/user_dao.js');
-
+var User = require('./lib/models/User.js');
 
 dbinit({
 	dbName: 'cucudb'
 }, onDbInit);
 
 function onDbInit(err, db){
-	var userDao = new UserDao(db);
+	var userDao = new Dao(db, 'users');
 	userDao.open(function(err, dao){
-		// insert
-		/*
-		dao.insert({
-			username: 'aaaa',
-			password: 'xxxxxx',
-			summary: 'bla bla bla..'
-		}, {}, function(err, docs){
-			console.log(docs)
-		});*/
+		// Model
+		var user1 = new User({
+			username: 'admin',
+			password: '123321',
+			summary: 'hahaha'
+		});
+		console.log(user1.validate());
+		console.log(user1.lastErrorKey);
+		
+		
+		// clear, insert
+		dao.clear(function(){
+			dao.insert(user1.attrs, {}, function(err, docs){
+				console.log(docs);
+			});
+		});
 		
 		
 		// remove
-		/*
-		dao.remove({}, {}, function(err, num){
+		/*dao.remove({}, {}, function(err, num){
 			console.log(num);
 		});*/
 		
 		
 		// find
-		/*
 		dao.find({}, {}, function(err, docs){
 			console.log(docs)
-		});*/
+		});
 		
 		
 		// update
-		/*
-		dao.update({}, {
+		/*dao.update({}, {
 			$set: {
-				username: 'sss'
+				username: 'ssss'
 			}
 		}, {}, function(err, num){
 			console.log(num)
 		});*/
 		
 		
-		// validate
-		/*var ok = dao.validate({
-			username: 'aaaa1',
-			password: '123411',
-			summary: 'asdasd dsa'
-		});
-		console.log(ok);*/
-		
-		// check
-		/*dao.check({
-			username: 'aaaa'
-		}, function(err, ok){
-			console.log(ok);
+		// exists
+		/*dao.exists({
+			username: 'ssss'
+		}, {}, function(err, exists){
+			console.log(exists);
 		});*/
+		
+		
 		
 		
 	});

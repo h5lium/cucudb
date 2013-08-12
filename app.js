@@ -3,7 +3,8 @@ var http = require('http'),
 	fs = require('fs');
 var express = require('express'),
 	mongodb = require('mongodb');
-var dbinit = require('./lib/plugins/cuculibs/db/dbinit.js');
+var dbinit = require('./lib/plugins/cuculibs/db/dbinit.js'),
+	Dao = require('./lib/plugins/cuculibs/db/Dao.js');
 
 
 // setup app
@@ -33,6 +34,13 @@ app.configure(function(){
 // db init done
 function onDbInit(err, db){
 	app.set('db', db);
+	
+	var userDao = new Dao(db, 'users');
+	userDao.open(onUserDaoInit);
+}
+// userDao init done
+function onUserDaoInit(err, userDao){
+	app.set('userDao', userDao);
 	
 	// routers
 	require('./lib/router/')(app);

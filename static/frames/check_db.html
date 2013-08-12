@@ -20,7 +20,7 @@
 			<div class="control-group">
 				<label class="control-label">DB Name</label>
 				<div class="controls">
-					<input type="text" name="username">
+					<input type="text" name="username" readonly>
 				</div>
 			</div>
 			
@@ -45,7 +45,6 @@
 			</div>
 			
 			 <div class="control-group">
-				<input type="button" id="btn-drop" value="Drop" class="btn btn-danger">
 				<input type="reset" value="Reset" class="btn">
 				<input type="submit" value="Modify" class="btn btn-info">
 			</div>
@@ -166,15 +165,6 @@
 		
 		
 		//form submit
-		$form_modify.find('#btn-drop').on('click', function(){
-			$.post('/do_drop', function(reply){
-				$.notify(reply['msg']);
-				
-				if (reply['ok']) {
-					$frame.path('login');
-				}
-			});
-		});
 		$form_modify.on('submit', function(ev){
 			if (! validate()) {
 				return false;
