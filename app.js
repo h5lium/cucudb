@@ -35,13 +35,18 @@ app.configure(function(){
 function onDbInit(err, db){
 	app.set('db', db);
 	
-	var userDao = new Dao(db, 'users');
-	userDao.open(onUserDaoInit);
+	var userDao = new Dao(db, 'users'),
+		collDao = new Dao(db, 'colls');
+	userDao.open(function(err, userDao){
+		app.set('userDao', userDao);
+		collDao.open(function(err, collDao){
+			app.set('collDao', collDao);
+			onDaosInit();
+		});
+	});
 }
-// userDao init done
-function onUserDaoInit(err, userDao){
-	app.set('userDao', userDao);
-	
+// daos init done
+function onDaosInit(){
 	// routers
 	require('./lib/router/')(app);
 	// static directory
