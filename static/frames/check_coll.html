@@ -36,14 +36,16 @@
 			$form_remove = $wrapper.find('#form-remove'),
 			$form_add = $wrapper.find('#form-add');
 		
-		var coll_name = $frame.getParam('coll');
+		var coll_id = Number($frame.getParam('coll'));
 		
-		$table_records.find('caption').text('Records Of `' + coll_name + '`');
-		
-		$.get('/do_check_coll/?coll='+ coll_name, function(reply){
+		$.get('/do_check_coll/?coll='+ coll_id, function(reply){
 			if (reply['ok']) {
-				var fields = reply['fields'],
-					records = reply['_records'];
+				var coll = reply['coll'],
+					name = coll.name,
+					fields = coll.fields,
+					records = coll.records;
+				
+				$table_records.find('caption').text('Records Of `' + name + '`');
 				
 				$table_records.find('.td-master').attr('colspan', 1 + fields.length);
 				
@@ -61,7 +63,7 @@
 						$(['<div class="control-group">',
 							'<label class="control-label">'+ field +'</label>',
 							'<div class="controls">',
-								'<input type="text" name="values[]">',
+								'<input type="text" name="'+ field +'">',
 							'</div>',
 						'</div>'].join('')).insertBefore('#form-add>.control-group:last');
 					}
@@ -87,7 +89,7 @@
 		
 		//form submit
 		$form_remove.on('submit', function(ev){
-			$.post('/do_remove_records/?coll='+ coll_name,
+			$.post('/do_remove_records/?coll='+ coll_id,
 				$form_remove.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
@@ -100,7 +102,7 @@
 		});
 		
 		$form_add.on('submit', function(ev){
-			$.post('/do_add_record/?coll='+ coll_name,
+			$.post('/do_add_record/?coll='+ coll_id,
 				$form_add.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				

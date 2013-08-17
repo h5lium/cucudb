@@ -2,4 +2,3 @@
 /.idea
 /*.zip
 /npm-debug.log
-/config/db.js

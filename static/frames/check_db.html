@@ -60,7 +60,7 @@
 				<thead>
 					<tr>
 						<th>
-							<input type="checkbox" class="check-all" data-name="names[]">
+							<input type="checkbox" class="check-all" data-name="_ids[]">
 						</th>
 						<th>Name</th>
 						<th>Fields</th>
@@ -132,19 +132,19 @@
 			if (reply['ok']) {
 				var db = reply['db'];
 				var $tbody = $table.find('tbody').hide();
-				$.each(db['_colls'], function(i, coll){
+				_.each(db['_colls'], function(coll){
 					$(['<tr>',
 						'<td>',
-							'<input type="checkbox" name="names[]" value="'+ coll['name'] +'">',
+							'<input type="checkbox" name="_ids[]" value="'+ coll['_id'] +'">',
 						'</td>',
 						'<td>'+ coll['name'] +'</td>',
-						'<td>'+ _(coll['fields']).map(function(val){
+						'<td>'+ _(coll['fields']).chain().map(function(val){
 							return '`' + val + '`';
 						}).reduce(function(sum, val){
-							return sum + ', ' + val;
-						}) +'</td>',
+							return (sum && sum + ', ') + val;
+						}, '').value() +'</td>',
 						'<td>'+ coll['summary'] +'</td>',
-						'<td>'+ '<a href="check_coll?coll='+ coll['name'] +'">View</a>' +'</td>',
+						'<td>'+ '<a href="check_coll?coll='+ coll['_id'] +'">View</a>' +'</td>',
 					'</tr>'].join('')).appendTo($tbody);
 				});
 				$tbody.show();
@@ -224,13 +224,11 @@
 		
 		
 		$form_add.on('submit', function(ev){
-			var coll_name = $form_add.find('[name="name"]').val();
-			
 			$.post('/do_add_coll', $form_add.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
-					$frame.pathin('check_coll?coll='+ coll_name);
+					$frame.path('check_coll?coll='+ reply['_id']);
 				}
 			});
 			

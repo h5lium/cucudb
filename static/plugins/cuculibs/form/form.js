@@ -24,7 +24,11 @@
 			// notice: value goes `undefined` on server when submitted as `[]`
 			
 			if (! $el.is(':checkbox') || $el.is(':checked')) {
-				var value = $el.val();
+				var value = (function(type, val){
+					// number allowed
+					return type && type.toLowerCase() === 'number' ?
+						Number(val) : val;
+				})($el.attr('type'), $el.val());
 				
 				if (_.isArray(json[key])) {
 					json[key].push(value);
@@ -37,6 +41,9 @@
 		// debug
 		//console.info('submit:', json);
 		return json;
+	}
+	$.fn.getFormString = function(){
+		return JSON.stringify($(this).getFormData());
 	}
 	$(function(){
 		// prevent all form default behaviors
