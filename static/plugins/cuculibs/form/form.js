@@ -7,7 +7,7 @@
 	
 	
 	// form-data
-	$.fn.getFormData = function(){
+	$.fn.getFormData = function(keys){
 		var json = {};
 		$(this).find('[name]').filter(function(i, el){
 			return ! $(el).is(':disabled') && ! $(el).attr('readonly');
@@ -40,10 +40,10 @@
 		
 		// debug
 		//console.info('submit:', json);
-		return json;
+		return keys ? _.pick(json, keys) : json;
 	}
-	$.fn.getFormString = function(){
-		return JSON.stringify($(this).getFormData());
+	$.fn.getFormString = function(keys){
+		return JSON.stringify($(this).getFormData(keys));
 	}
 	$(function(){
 		// prevent all form default behaviors

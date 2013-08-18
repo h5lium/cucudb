@@ -1,6 +1,13 @@
+<style scoped>
+	#table-records input {
+		margin-bottom: 0;
+	}
+</style>
+
+
 <div id="wrapper">
 	<div class="block">
-		<form id="form-remove">
+		<form id="form-records">
 			<table id="table-records" class="table table-striped">
 				<caption></caption>
 				<thead></thead>
@@ -8,7 +15,8 @@
 				<tfoot>
 					<tr>
 						<td class="td-master" colspan="1">
-							<input type="submit" value="Remove" class="btn btn-danger">
+							<button id="btn-remove" class="btn btn-danger">Remove</button>
+							<button id="btn-save" class="btn btn-info">Save</button>
 						</td>
 					</tr>
 				</tfoot>
@@ -33,8 +41,10 @@
 		// load data
 		var $wrapper = $('#wrapper'),
 			$table_records = $wrapper.find('#table-records'),
-			$form_remove = $wrapper.find('#form-remove'),
-			$form_add = $wrapper.find('#form-add');
+			$form_records = $wrapper.find('#form-records'),
+			$form_add = $wrapper.find('#form-add'),
+			$btn_remove = $form_records.find('#btn-remove'),
+			$btn_save = $form_records.find('#btn-save');
 		
 		var coll_id = Number($frame.getParam('coll'));
 		
@@ -44,6 +54,7 @@
 					name = coll.name,
 					fields = coll.fields,
 					records = coll.records;
+				var sysFields = ['_id'];
 				
 				$table_records.find('caption').text('Records Of `' + name + '`');
 				
@@ -58,8 +69,7 @@
 					$('<th>').text(field).appendTo($tr);
 					
 					// values
-					var sys = ['_id'];
-					if (! _.contains(sys, field)) {
+					if (! _.contains(sysFields, field)) {
 						$(['<div class="control-group">',
 							'<label class="control-label">'+ field +'</label>',
 							'<div class="controls">',
@@ -76,7 +86,13 @@
 							'<input type="checkbox" name="_ids[]" value="'+ record['_id'] +'">',
 						'</td>'].join(''));
 					_.each(fields, function(field){
-						$('<td>').text(record[field]).appendTo($tr);
+						//$('<td>').text(record[field]).appendTo($tr);
+						
+						var $input = $('<input type="text" value="'+ record[field] +'">');
+						if (_.contains(sysFields, field)) {
+							$input.attr('readonly', true).addClass('input-mini');
+						}
+						$('<td>').append($input).appendTo($tr);
 					});
 					$tr.appendTo($tbody);
 				});
@@ -88,9 +104,9 @@
 		
 		
 		//form submit
-		$form_remove.on('submit', function(ev){
+		$btn_remove.on('click', function(ev){
 			$.post('/do_remove_records/?coll='+ coll_id,
-				$form_remove.getFormData(), function(reply){
+				$form_records.getFormData('_ids'), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
