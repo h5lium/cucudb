@@ -1,5 +1,5 @@
 # CucuDB
 
-A simplified database service provided to developer users
+Simplified Database Service for developer users
 
 Demo: <http://cucudb.duapp.com>

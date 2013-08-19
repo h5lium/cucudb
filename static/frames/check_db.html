@@ -1,18 +1,29 @@
 
 <style scoped>
-	#form-add .tick-toggle {
+	#form-add-coll .tick-toggle {
 		margin: 0 10px 0 0;
 	}
 	
 	#div-fields>div {
 		margin-bottom: 6px;
 	}
+	
+	#table-collections input {
+		margin-bottom: 0;
+	}
+	#table-collections tr th,
+	#table-collections tr td {
+		vertical-align: middle;
+	}
+	#table-collections input[type="checkbox"] {
+		margin-top: -2px;
+	}
 </style>
 
 
 <div id="wrapper">
 	<div class="block">
-		<form id="form-modify" class="form-horizontal">
+		<form id="form-modify-db" class="form-horizontal">
 			<legend>
 				Modify My DB
 			</legend>
@@ -52,7 +63,7 @@
 	</div>
 	
 	<div class="block">
-		<form id="form-remove">
+		<form id="form-colls">
 			<table id="table-collections" class="table table-striped">
 				<caption>
 					Collections
@@ -62,6 +73,7 @@
 						<th>
 							<input type="checkbox" class="check-all" data-name="_ids[]">
 						</th>
+						<th>_id</th>
 						<th>Name</th>
 						<th>Fields</th>
 						<th>Summary</th>
@@ -71,8 +83,10 @@
 				<tbody></tbody>
 				<tfoot>
 					<tr>
-						<td colspan="5">
-							<input type="submit" value="Remove" class="btn btn-danger">
+						<td colspan="6">
+							<input type="button" id="btn-remove-colls" class="btn btn-danger" value="Remove">
+							<input type="reset" class="btn" value="Reset">
+							<input type="button" id="btn-modify-colls" class="btn btn-info" value="Modify">
 						</td>
 					</tr>
 				</tfoot>
@@ -81,7 +95,7 @@
 	</div>
 	
 	<div class="block">
-		<form id="form-add" class="form-horizontal">
+		<form id="form-add-coll" class="form-horizontal">
 			<legend>
 				Add A Collection
 			</legend>
@@ -117,9 +131,11 @@
 	(function(){
 		var $wrapper = $('#wrapper'),
 			$table = $wrapper.find('#table-collections'),
-			$form_modify = $wrapper.find('#form-modify'),
-			$form_remove = $wrapper.find('#form-remove'),
-			$form_add = $wrapper.find('#form-add');
+			$form_modify_db = $wrapper.find('#form-modify-db'),
+			$form_colls = $wrapper.find('#form-colls'),
+			$form_add_coll = $wrapper.find('#form-add-coll'),
+			$btn_remove_colls = $wrapper.find('#btn-remove-colls'),
+			$btn_modify_colls = $wrapper.find('#btn-modify-colls');
 		
 		
 		var sysFields = ['_id'],
@@ -137,21 +153,32 @@
 						'<td>',
 							'<input type="checkbox" name="_ids[]" value="'+ coll['_id'] +'">',
 						'</td>',
-						'<td>'+ coll['name'] +'</td>',
-						'<td>'+ _(coll['fields']).chain().map(function(val){
+						'<td>',
+							'<input type="text" class="input-mini" value="'+ coll['_id'] +'" readonly>',
+						'</td>',
+						'<td>',
+							'<input type="text" value="'+ coll['name'] +'">',
+						'</td>',
+						'<td>',
+							'<input type="text" value="'+ _(coll['fields']).chain().map(function(val){
 							return '`' + val + '`';
 						}).reduce(function(sum, val){
 							return (sum && sum + ', ') + val;
-						}, '').value() +'</td>',
-						'<td>'+ coll['summary'] +'</td>',
-						'<td>'+ '<a href="check_coll?coll='+ coll['_id'] +'">View</a>' +'</td>',
+						}, '').value() +'" readonly>',
+						'</td>',
+						'<td>',
+							'<input type="text" value="'+ coll['summary'] +'">',
+						'</td>',
+						'<td>',
+							'<button class="btn btn-success" href="check_coll?coll='+ coll['_id'] +'">View</button>',
+						'</td>',
 					'</tr>'].join('')).appendTo($tbody);
 				});
 				$tbody.show();
 				
 				// set default values
-				$form_modify.find('[name="username"]').attr('value', db['username']);
-				$form_modify.find('[name="summary"]').text(db['summary']);
+				$form_modify_db.find('[name="username"]').attr('value', db['username']);
+				$form_modify_db.find('[name="summary"]').text(db['summary']);
 			} else {
 				$.notify(reply['msg']);
 			}
@@ -165,12 +192,12 @@
 		
 		
 		//form submit
-		$form_modify.on('submit', function(ev){
+		$form_modify_db.on('submit', function(ev){
 			if (! validate()) {
 				return false;
 			}
 			
-			$.post('/do_modify_db', $form_modify.getFormData(), function(reply){
+			$.post('/do_modify_db', $form_modify_db.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -181,8 +208,8 @@
 			return false;
 			
 			function validate(){
-				var pass = $form_modify.find('[name="password"]').val(),
-					pass_again = $form_modify.find('#input-again').val();
+				var pass = $form_modify_db.find('[name="password"]').val(),
+					pass_again = $form_modify_db.find('#input-again').val();
 				if (pass && pass_again !== pass) {
 					$.notify('Not Match');
 					return false;
@@ -191,8 +218,20 @@
 			}
 		});
 		
-		$form_remove.on('submit', function(ev){
-			$.post('/do_remove_colls', $form_remove.getFormData(), function(reply){
+		$btn_remove_colls.on('click', function(ev){
+			$.post('/do_remove_colls', $form_colls.getFormData('_ids'), function(reply){
+				$.notify(reply['msg']);
+				
+				if (reply['ok']) {
+					$frame.repath();
+				}
+			});
+			
+			return false;
+		});
+		
+		$btn_modify_colls.on('click', function(ev){
+			$.post('/do_modify_colls', $form_colls.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -205,7 +244,7 @@
 		
 		
 		
-		var $div_fields = $form_add.find('#div-fields');
+		var $div_fields = $form_add_coll.find('#div-fields');
 		_.each(sysFields, function(val){
 			$div_fields.append(['<div>',
 				'<input type="checkbox" class="tick-toggle" checked disabled>',
@@ -223,8 +262,8 @@
 		});
 		
 		
-		$form_add.on('submit', function(ev){
-			$.post('/do_add_coll', $form_add.getFormData(), function(reply){
+		$form_add_coll.on('submit', function(ev){
+			$.post('/do_add_coll', $form_add_coll.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
