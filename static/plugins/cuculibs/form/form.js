@@ -10,7 +10,7 @@
 	$.fn.getFormData = function(keys){
 		var json = {};
 		$(this).find('[name]').filter(function(i, el){
-			return ! $(el).is(':disabled') && ! $(el).attr('readonly');
+			return ! $(el).is(':disabled');
 		}).each(function(i, el){
 			var $el = $(el);
 			var key = $el.attr('name');

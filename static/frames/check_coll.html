@@ -70,7 +70,7 @@
 				
 				var $thead = $table_records.find('thead'),
 					$tr = $('<tr>').append(['<th>',
-						'<input type="checkbox" class="check-all" data-name="_ids[]">',
+						'<input type="checkbox" class="check-all" data-name="selected[]">',
 					'</th>'].join(''));
 				var $values = $form_add.find('#values');
 				_.each(fields, function(field){
@@ -91,12 +91,12 @@
 				var $tbody = $table_records.find('tbody').hide();
 				_.each(records, function(record){
 					var $tr = $('<tr>').append(['<td>', 
-							'<input type="checkbox" name="_ids[]" value="'+ record['_id'] +'">',
+							'<input type="checkbox" name="selected[]" value="'+ record['_id'] +'">',
 						'</td>'].join(''));
 					_.each(fields, function(field){
 						//$('<td>').text(record[field]).appendTo($tr);
 						
-						var $input = $('<input type="text" value="'+ record[field] +'">');
+						var $input = $('<input type="text" name="'+ field +'[]" value="'+ record[field] +'">');
 						if (_.contains(sysFields, field)) {
 							$input.attr('readonly', true).addClass('input-mini');
 						}
@@ -114,7 +114,19 @@
 		//form submit
 		$btn_remove.on('click', function(ev){
 			$.post('/do_remove_records/?coll='+ coll_id,
-				$form_records.getFormData('_ids'), function(reply){
+				$form_records.getFormData('selected'), function(reply){
+				$.notify(reply['msg']);
+				
+				if (reply['ok']) {
+					$frame.repath();
+				}
+			});
+			
+			return false;
+		});
+		$btn_save.on('click', function(ev){
+			$.post('/do_modify_records/?coll='+ coll_id,
+				$form_records.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
