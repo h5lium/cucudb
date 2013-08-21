@@ -48,7 +48,7 @@ function onDbInit(err, db){
 // daos init done
 function onDaosInit(){
 	// routers
-	require('./lib/router/')(app);
+	require('./lib/routers/')(app);
 	// static directory
 	app.use(express.static((app.get('isOnBAE')? './app': '.') + '/static'));
 	
