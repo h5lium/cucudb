@@ -14,17 +14,22 @@ table>caption {
 
 
 /* over bootstrap 3 */
-.table-responsive>.table {
-	margin-bottom: 0;
-}
-.table-responsive {
-	overflow-x: auto;
+table {
+	min-width: 480px;
 }
 table:last-child, form:last-child {
 	margin-bottom: 0;
 }
 form .form-group:last-child {
 	padding-top: 5px;
+	margin-bottom: 0;
+}
+.table-responsive {
+	overflow-x: auto;
+	margin-bottom: 0;
+	border: none;
+}
+.table-responsive>table {
 	margin-bottom: 0;
 }
 .control-label {
@@ -38,8 +43,18 @@ form .form-group:last-child {
 input[type="checkbox"] {
 	cursor: pointer;
 }
-table>tfoot td {
-	padding-bottom: 0!important;
+
+.navbar-collapse {
+	padding-right: 0;
+}
+.navbar-collapse.in {
+	padding-right: 15px;
+}
+.navbar-form {
+	padding-right: 0;
+}
+.navbar-form>.form-group {
+	width: 120px!important;
 }
 
 
@@ -50,7 +65,6 @@ table>tfoot td {
 #wrapper {
 	padding: 10px 0;
 }
-
 article>p:last-child {
 	margin-bottom: 0;
 }

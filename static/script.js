@@ -1,7 +1,9 @@
 var $body = $('body'),
 	$frame = $('#frame'),
 	//$loading = $('#loading'),
-	$toggle = $('.navbar-toggle');
+	$navbar = $('.navbar'),
+	$toggle = $('.navbar').find('.navbar-toggle'),
+	$nav = $navbar.find('.navbar-nav');
 
 
 (function(){
@@ -26,6 +28,10 @@ var $body = $('body'),
 		before: function(){
 			var href = $(this).data('pathHref');
 			location.hash = href;
+			
+			// navbar active
+			$nav.find('li').removeClass('active')
+				.has('[href="'+ href +'"]').addClass('active');
 		}
 	}, $.getHash().substr(1) || 'home');
 	$body.delegate('[href]', 'click', function(ev){
@@ -41,7 +47,7 @@ var $body = $('body'),
 	
 	
 	// login form
-	var $form_login = $('#form-login');
+	var $form_login = $navbar.find('#form-login');
 	$form_login.on('submit', function(ev){
 		var $form = $(this);
 		
