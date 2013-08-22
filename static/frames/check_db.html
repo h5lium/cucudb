@@ -1,7 +1,7 @@
 
 <style scoped>
 	#form-add-coll .tick-toggle {
-		margin: 0 10px 0 0;
+		margin-top: 10px;
 	}
 	
 	#div-fields>div {
@@ -15,114 +15,124 @@
 	#table-collections tr td {
 		vertical-align: middle;
 	}
-	#table-collections input[type="checkbox"] {
-		margin-top: -2px;
-	}
 </style>
 
 
 <div id="wrapper">
-	<div class="block">
-		<form id="form-modify-db" class="form-horizontal">
-			<legend>
-				Modify My DB
-			</legend>
-			
-			<div class="control-group">
-				<label class="control-label">DB Name</label>
-				<div class="controls">
-					<input type="text" name="username" readonly>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Modify My DB
+		</div>
+		
+		<div class="panel-body">
+			<form id="form-modify-db" class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-4">DB Name</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="text" name="username" readonly>
+					</div>
 				</div>
-			</div>
-			
-			<div class="control-group">
-				<label class="control-label">New Password</label>
-				<div class="controls">
-					<input type="password" name="password">
+				
+				<div class="form-group">
+					<label class="control-label col-sm-4">New Password</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="password" name="password">
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">New Password Again</label>
-				<div class="controls">
-					<input type="password" id="input-again">
+				<div class="form-group">
+					<label class="control-label col-sm-4">New Password Again</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="password" id="input-again">
+					</div>
 				</div>
-			</div>
-			
-			<div class="control-group">
-				<label class="control-label">Summary</label>
-				<div class="controls">
-					<textarea name="summary"></textarea>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-4">Summary</label>
+					<div class="col-sm-5">
+						<textarea class="form-control" name="summary"></textarea>
+					</div>
 				</div>
-			</div>
-			
-			 <div class="control-group">
-				<input type="reset" value="Reset" class="btn">
-				<input type="submit" value="Modify" class="btn btn-info">
-			</div>
-		</form>
+				
+				 <div class="form-group">
+				 	<div class="col-sm-12">
+						<input type="reset" value="Reset" class="btn">
+						<input type="submit" value="Modify" class="btn btn-info">
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	
-	<div class="block">
-		<form id="form-colls">
-			<table id="table-collections" class="table table-striped">
-				<caption>
-					Collections
-				</caption>
-				<thead>
-					<tr>
-						<th>
-							<input type="checkbox" class="check-all" data-name="selected[]">
-						</th>
-						<th>_id</th>
-						<th>Name</th>
-						<th>Fields</th>
-						<th>Summary</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-				<tfoot>
-					<tr>
-						<td colspan="6">
-							<input type="button" id="btn-remove-colls" class="btn btn-danger" value="Remove">
-							<input type="reset" class="btn" value="Reset">
-							<input type="button" id="btn-modify-colls" class="btn btn-info" value="Modify">
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</form>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			My Collections
+		</div>
+		
+		<div class="panel-body table-responsive">
+			<form id="form-colls">
+				<table id="table-collections" class="table table-striped">
+					<thead>
+						<tr>
+							<th>
+								<input class="check-all" type="checkbox" data-name="selected[]">
+							</th>
+							<th>_id</th>
+							<th>Name</th>
+							<th>Fields</th>
+							<th>Summary</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6">
+								<input type="button" id="btn-remove-colls" class="btn btn-danger" value="Remove">
+								<input type="reset" class="btn" value="Reset">
+								<input type="button" id="btn-modify-colls" class="btn btn-info" value="Modify">
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
 	</div>
 	
-	<div class="block">
-		<form id="form-add-coll" class="form-horizontal">
-			<legend>
-				Add A Collection
-			</legend>
-			
-			<div class="control-group">
-				<label class="control-label">Collection Name</label>
-				<div class="controls">
-					<input type="text" name="name">
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Add Collection
+		</div>
+		
+		<div class="panel-body">
+			<form id="form-add-coll" class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-4">Collection Name</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="text" name="name">
+					</div>
 				</div>
-			</div>
-			
-			<div class="control-group">
-				<label class="control-label">Feilds</label>
-				<div class="controls" id="div-fields"></div>
-			</div>
-			
-			<div class="control-group">
-				<label class="control-label">Summary</label>
-				<div class="controls">
-					<textarea name="summary"></textarea>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-4">Feilds</label>
+					<div class="col-sm-5" id="div-fields"></div>
 				</div>
-			</div>
-			
-			<div class="control-group">
-				<input type="submit" value="Add" class="btn btn-success">
-			</div>
-		</form>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-4">Summary</label>
+					<div class="col-sm-5">
+						<textarea class="form-control" name="summary"></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-12">
+						<input type="submit" value="Add" class="btn btn-success">
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -154,20 +164,20 @@
 							'<input type="checkbox" name="selected[]" value="'+ coll['_id'] +'">',
 						'</td>',
 						'<td>',
-							'<input type="text" class="input-mini" name="_id[]" value="'+ coll['_id'] +'" readonly>',
+							'<input class="form-control" type="text" class="input-mini" name="_id[]" value="'+ coll['_id'] +'" readonly>',
 						'</td>',
 						'<td>',
-							'<input type="text" name="name[]" value="'+ coll['name'] +'">',
+							'<input class="form-control" type="text" name="name[]" value="'+ coll['name'] +'">',
 						'</td>',
 						'<td>',
-							'<input type="text" value="'+ _(coll['fields']).chain().map(function(val){
+							'<input class="form-control" type="text" value="'+ _(coll['fields']).chain().map(function(val){
 							return '`' + val + '`';
 						}).reduce(function(sum, val){
 							return (sum && sum + ', ') + val;
 						}, '').value() +'" readonly>',
 						'</td>',
 						'<td>',
-							'<input type="text" name="summary[]" value="'+ coll['summary'] +'">',
+							'<input class="form-control" type="text" name="summary[]" value="'+ coll['summary'] +'">',
 						'</td>',
 						'<td>',
 							'<button class="btn btn-success" href="check_coll?coll='+ coll['_id'] +'">View</button>',
@@ -246,19 +256,27 @@
 		
 		var $div_fields = $form_add_coll.find('#div-fields');
 		_.each(sysFields, function(val){
-			$div_fields.append(['<div>',
-				'<input type="checkbox" class="tick-toggle" checked disabled>',
-				'<input type="text" value="'+ val +'" readonly>',
+			$div_fields.append(['<div class="row">',
+				'<div class="col-sm-1">',
+					'<input class="tick-toggle" type="checkbox" checked disabled>',
+				'</div>',
+				'<div class="col-sm-11">',
+					'<input class="form-control" type="text" value="'+ val +'" readonly>',
+				'</div>',
 			'</div>'].join(''));
 		});
 		_.times(maxNumUserFields, function(){
-			$div_fields.append(['<div>',
-				'<input type="checkbox" class="tick-toggle">',
-				'<input type="text" name="fields[]" disabled>',
+			$div_fields.append(['<div class="row">',
+				'<div class="col-sm-1">',
+					'<input class="tick-toggle" type="checkbox">',
+				'</div>',
+				'<div class="col-sm-11">',
+					'<input class="form-control" type="text" name="fields[]" disabled>',
+				'</div>',
 			'</div>'].join(''));
 		});
 		$div_fields.find('.tick-toggle').on('change', function(){
-			$(this).next().attr('disabled', ! $(this).is(':checked'));
+			$(this).closest('.row').find('[name]').attr('disabled', ! $(this).is(':checked'));
 		});
 		
 		

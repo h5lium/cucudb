@@ -1,3 +1,4 @@
+/* over bootstrap 2 */
 @media (max-width: 480px) {
 	body {
 		padding: 10px !important;
@@ -7,7 +8,6 @@ body {
 	min-width: 320px;
 }
 form>legend {
-	margin-bottom: 2px;
 	width: 60%;
 	min-width: 200px;
 	max-width: 500px;
@@ -18,29 +18,47 @@ table>caption {
 }
 
 
-.block {
-	border-top: 3px solid #e5e5e5;
-	padding: 10px 0;
+/* over bootstrap 3 */
+.table-responsive>.table {
+	margin-bottom: 0;
 }
-#loading, #h1 {
-	display: inline-block;
+.table-responsive {
+	overflow-x: auto;
 }
-#loading {
-	margin-left: 8px;
-	width: 32px;
-	height: 32px;
+table:last-child, form:last-child {
+	margin-bottom: 0;
 }
-#loading.on {
-	background:	url("images/octocat-spinner-32.gif") no-repeat;
+form .form-group:first-child {
+	padding-top: 15px;
 }
-#nav li {
-	display: inline-block;
-	margin-right: 14px;
+form .form-group:last-child {
+	padding-top: 5px;
+	margin-bottom: 0;
 }
-#nav li:before {
-	content: " | ";
+.control-label {
+	margin-bottom: 4px!important;
+}
+.container {
+	width: 100%;
+	min-width: 0;
+	max-width: 9999px;
+}
+input[type="checkbox"] {
+	cursor: pointer;
+}
+table>tfoot td {
+	padding-bottom: 0!important;
 }
 
+
+/* customer */
 #frame {
-	margin-top: 20px;
+	margin-top: 54px;
+}
+#wrapper {
+	padding: 10px 0;
+}
+
+article>p:last-child {
+	margin-bottom: 0;
 }

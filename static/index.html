@@ -2,47 +2,57 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Cucu DB Service</title>
 	
-	<link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="/plugins/bootstrap3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/plugins/bootstrap3/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-	<div class="container-fluid">
-		<header id="header">
-			<h1 id="h1">Cucu DB Service</h1>
-			<div id="loading"></div>
-			<nav id="nav" class="nav">
-				<ul>
-					<li>
-						<a href="home">Home</a>
-					</li>
-					<li>
-						<a href="list_dbs">List DBs</a>
-					</li>
-					<li>
-						<a href="reg">Register A DB</a>
-					</li>
-					<li>
-						<a href="login">Login My DB</a>
-					</li>
-					<li>
-						<a href="check_db">View My DB</a>
-					</li>
-				</ul>
-			</nav>
-		</header>
+	<header id="header">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					    <span class="sr-only">Toggle navigation</span>
+					    <span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+				    </button>
+					<a href="home" class="navbar-brand">Cucu DB</a>
+				</div>
+				
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="home">Home</a>
+						</li>
+						<li>
+							<a href="list_dbs">List DBs</a>
+						</li>
+						<li>
+							<a href="reg">Create DB</a>
+						</li>
+						<li>
+							<a href="login">Login DB</a>
+						</li>
+						<li>
+							<a href="check_db">View My DB</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
 		
-		<div id="frame"></div>
-	</div>
+	<div id="frame" class="container"></div>
 	
 	
 	<script src="/plugins/underscore/underscore-min.js"></script>
 	<script src="/plugins/jquery/jquery.min.js"></script>
-	<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/plugins/bootstrap3/js/bootstrap.min.js"></script>
 	<script src="/plugins/cuculibs/page/page.js"></script>
 	<script src="/plugins/cuculibs/form/form.js"></script>
 	<script src="/plugins/cuculibs/path/path.js"></script>

@@ -6,39 +6,44 @@
 	#table-records tr td {
 		vertical-align: middle;
 	}
-	#table-records input[type="checkbox"] {
-		margin-top: -2px;
-	}
 </style>
 
 
 <div id="wrapper">
-	<div class="block">
-		<form id="form-records">
-			<table id="table-records" class="table table-striped">
-				<caption></caption>
-				<thead></thead>
-				<tbody></tbody>
-				<tfoot>
-					<tr>
-						<td class="td-master" colspan="1">
-							<input type="button" id="btn-remove" class="btn btn-danger" value="Remove">
-							<input type="reset" class="btn" value="Reset">
-							<input type="button" id="btn-save" class="btn btn-info" value="Save">
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</form>
+	<div class="panel panel-default">
+		<div class="panel-heading" id="table-caption"></div>
+		
+		<div class="panel-body table-responsive">
+			<form id="form-records">
+				<table id="table-records" class="table table-striped">
+					<thead></thead>
+					<tbody></tbody>
+					<tfoot>
+						<tr>
+							<td class="td-master" colspan="1">
+								<input type="button" id="btn-remove" class="btn btn-danger" value="Remove">
+								<input type="reset" class="btn" value="Reset">
+								<input type="button" id="btn-save" class="btn btn-info" value="Save">
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
 	</div>
 	
-	<div class="block">
-		<form id="form-add" class="form-horizontal">
-			<legend>Add A Record</legend>
-			<div class="control-group">
-				<input type="submit" value="Add" class="btn btn-success">
-			</div>
-		</form>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Add Record
+		</div>
+		
+		<div class="panel-body">
+			<form id="form-add" class="form-horizontal">
+				<div class="control-group">
+					<input type="submit" value="Add" class="btn btn-success">
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -64,7 +69,7 @@
 					records = coll.records;
 				var sysFields = ['_id'];
 				
-				$table_records.find('caption').text('Records Of `' + name + '`');
+				$wrapper.find('#table-caption').text('Records Of `' + name + '`');
 				
 				$table_records.find('.td-master').attr('colspan', 1 + fields.length);
 				
@@ -78,10 +83,10 @@
 					
 					// values
 					if (! _.contains(sysFields, field)) {
-						$(['<div class="control-group">',
-							'<label class="control-label">'+ field +'</label>',
-							'<div class="controls">',
-								'<input type="text" name="'+ field +'">',
+						$(['<div class="form-group">',
+							'<label class="control-label col-sm-4">'+ field +'</label>',
+							'<div class="col-sm-5">',
+								'<input class="form-control" type="text" name="'+ field +'">',
 							'</div>',
 						'</div>'].join('')).insertBefore('#form-add>.control-group:last');
 					}
@@ -96,7 +101,7 @@
 					_.each(fields, function(field){
 						//$('<td>').text(record[field]).appendTo($tr);
 						
-						var $input = $('<input type="text" name="'+ field +'[]" value="'+ record[field] +'">');
+						var $input = $('<input class="form-control" type="text" name="'+ field +'[]" value="'+ record[field] +'">');
 						if (_.contains(sysFields, field)) {
 							$input.attr('readonly', true).addClass('input-mini');
 						}
