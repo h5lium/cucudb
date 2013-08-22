@@ -1,41 +1,47 @@
 <div id="wrapper">
 	
-	<form id="form-reg" class="form-horizontal">
-		<legend>Create DB</legend>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-3">DB Name</label>
-			<div class="col-sm-5">
-				<input class="form-control" type="text" name="username">
-			</div>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			Create DB
 		</div>
 		
-		<div class="form-group">
-			<label class="control-label col-sm-3">Password</label>
-			<div class="col-sm-5">
-				<input class="form-control" type="password" name="password">
-			</div>
+		<div class="panel-body">
+			<form id="form-reg" class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-3">DB Name</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="text" name="username">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-3">Password</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="password" name="password">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3">Password Again</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="password" id="input-again">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-3">Summary</label>
+					<div class="col-sm-5">
+						<textarea class="form-control" name="summary"></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-12">
+						<input class="btn btn-success" type="submit" value="Create">
+					</div>
+				</div>
+			</form>
 		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-3">Password Again</label>
-			<div class="col-sm-5">
-				<input class="form-control" type="password" id="input-again">
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-3">Summary</label>
-			<div class="col-sm-5">
-				<textarea class="form-control" name="summary"></textarea>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-sm-12">
-				<input type="submit" value="Register" class="btn btn-primary">
-			</div>
-		</div>
-	</form>
+	</div>
 	
 </div>
 

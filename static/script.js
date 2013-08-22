@@ -3,6 +3,7 @@ var $body = $('body'),
 	//$loading = $('#loading'),
 	$toggle = $('.navbar-toggle');
 
+
 (function(){
 	// loading
 	/*$(document).ajaxStart(function(){
@@ -12,6 +13,7 @@ var $body = $('body'),
 			$loading.removeClass('on');
 		}, 300);
 	});*/
+	
 	
 	// path
 	$frame.pathConfig({
@@ -38,4 +40,20 @@ var $body = $('body'),
 	});
 	
 	
+	// login form
+	var $form_login = $('#form-login');
+	$form_login.on('submit', function(ev){
+		var $form = $(this);
+		
+		$.post('/do_login', $form.getFormData(), function(reply){
+			$.notify(reply['msg']);
+			
+			if (reply['ok']) {
+				$frame.path('check_db');
+				$form[0].reset();
+			}
+		});
+		
+		return false;
+	});
 })();

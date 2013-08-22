@@ -1,9 +1,4 @@
 /* over bootstrap 2 */
-@media (max-width: 480px) {
-	body {
-		padding: 10px !important;
-	}
-}
 body {
 	min-width: 320px;
 }
@@ -27,9 +22,6 @@ table>caption {
 }
 table:last-child, form:last-child {
 	margin-bottom: 0;
-}
-form .form-group:first-child {
-	padding-top: 15px;
 }
 form .form-group:last-child {
 	padding-top: 5px;
