@@ -1,10 +1,6 @@
 
 <style scoped>
-	#form-add-coll .tick-toggle {
-		margin-top: 10px;
-	}
-	
-	#div-fields>div {
+	#div-fields>.input-group {
 		margin-bottom: 6px;
 	}
 	
@@ -56,7 +52,7 @@
 				
 				 <div class="form-group">
 				 	<div class="col-sm-12">
-						<input type="reset" value="Reset" class="btn">
+						<input type="reset" value="Reset" class="btn btn-default">
 						<input type="submit" value="Modify" class="btn btn-info">
 					</div>
 				</div>
@@ -90,7 +86,7 @@
 							<tr>
 								<td colspan="6">
 									<input type="button" id="btn-remove-colls" class="btn btn-danger" value="Remove">
-									<input type="reset" class="btn" value="Reset">
+									<input type="reset" class="btn btn-default" value="Reset">
 									<input type="button" id="btn-modify-colls" class="btn btn-info" value="Modify">
 								</td>
 							</tr>
@@ -258,27 +254,23 @@
 		
 		var $div_fields = $form_add_coll.find('#div-fields');
 		_.each(sysFields, function(val){
-			$div_fields.append(['<div class="row">',
-				'<div class="col-sm-1">',
+			$div_fields.append(['<div class="input-group">',
+				'<span class="input-group-addon">',
 					'<input class="tick-toggle" type="checkbox" checked disabled>',
-				'</div>',
-				'<div class="col-sm-11">',
-					'<input class="form-control" type="text" value="'+ val +'" readonly>',
-				'</div>',
+				'</span>',
+				'<input class="form-control" type="text" value="'+ val +'" readonly>',
 			'</div>'].join(''));
 		});
 		_.times(maxNumUserFields, function(){
-			$div_fields.append(['<div class="row">',
-				'<div class="col-sm-1">',
+			$div_fields.append(['<div class="input-group">',
+				'<span class="input-group-addon">',
 					'<input class="tick-toggle" type="checkbox">',
-				'</div>',
-				'<div class="col-sm-11">',
-					'<input class="form-control" type="text" name="fields[]" disabled>',
-				'</div>',
+				'</span>',
+				'<input class="form-control" type="text" name="fields[]" disabled>',
 			'</div>'].join(''));
 		});
 		$div_fields.find('.tick-toggle').on('change', function(){
-			$(this).closest('.row').find('[name]').attr('disabled', ! $(this).is(':checked'));
+			$(this).closest('.input-group').find('[name]').attr('disabled', ! $(this).is(':checked'));
 		});
 		
 		

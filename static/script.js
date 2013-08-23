@@ -32,16 +32,15 @@ var $body = $('body'),
 			// navbar active
 			$nav.find('li').removeClass('active')
 				.has('[href="'+ href +'"]').addClass('active');
+			// toggle back
+			if ($($toggle.data('target')).is('.in')) {
+				$toggle.click();
+			}
 		}
 	}, $.getHash().substr(1) || 'home');
 	$body.delegate('[href]', 'click', function(ev){
 		var href = $(this).attr('href');
 		$frame.path(href);
-		
-		// toggle back
-		if ($($toggle.data('target')).is('.in')) {
-			$toggle.click();
-		}
 		return false;
 	});
 	
@@ -56,10 +55,43 @@ var $body = $('body'),
 			
 			if (reply['ok']) {
 				$frame.path('check_db');
+				getUser();
 				$form[0].reset();
 			}
 		});
 		
 		return false;
 	});
+	// logout form
+	var $form_logout = $navbar.find('#form-logout'),
+		$span_username = $form_logout.find('#span-username');
+	$form_logout.on('submit', function(ev){
+		var $form = $(this);
+		
+		$.post('/do_logout', $form.getFormData(), function(reply){
+			$.notify(reply['msg']);
+			
+			if (reply['ok']) {
+				$frame.path('home');
+				getUser();
+				$span_username.empty();
+			}
+		});
+		
+		return false;
+	});
+	// get user
+	getUser();
+	function getUser(){
+		$.get('/do_get_user', function(reply){
+			if (reply['ok']) {
+				$span_username.text(reply['user'].username);
+				$form_login.addClass('hidden');
+				$form_logout.removeClass('hidden');
+			} else {
+				$form_login.removeClass('hidden');
+				$form_logout.addClass('hidden');
+			}
+		});
+	}
 })();
