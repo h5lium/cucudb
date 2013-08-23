@@ -1,3 +1,5 @@
-navbar ssu
+//navbar ssu
 
 api display
+
+user_op logout/getuser

@@ -14,6 +14,10 @@ table>caption {
 
 
 /* over bootstrap 3 */
+.input-group-addon input[type="radio"],
+.input-group-addon input[type="checkbox"] {
+	margin-top: 1px;
+}
 input[type="checkbox"] {
 	cursor: pointer;
 }

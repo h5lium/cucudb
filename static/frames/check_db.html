@@ -68,7 +68,7 @@
 		<div class="panel-body">
 			<div class="table-responsive">
 				<form id="form-colls">
-					<table id="table-collections" class="table table-striped">
+					<table id="table-collections" class="table table-striped hidden">
 						<thead>
 							<tr>
 								<th>
@@ -155,7 +155,7 @@
 		$.get('/do_check_db', function(reply){
 			if (reply['ok']) {
 				var db = reply['db'];
-				var $tbody = $table.find('tbody').hide();
+				var $tbody = $table.find('tbody');
 				_.each(db['_colls'], function(coll){
 					$(['<tr>',
 						'<td>',
@@ -168,9 +168,8 @@
 							'<input class="form-control" type="text" name="name[]" value="'+ coll['name'] +'">',
 						'</td>',
 						'<td>',
-							'<input class="form-control" type="text" value="'+ _(coll['fields']).chain().map(function(val){
-							return '`' + val + '`';
-						}).reduce(function(sum, val){
+							'<input class="form-control" type="text" value="'+ _(coll['fields']).chain()
+						.reduce(function(sum, val){
 							return (sum && sum + ', ') + val;
 						}, '').value() +'" readonly>',
 						'</td>',
@@ -182,7 +181,6 @@
 						'</td>',
 					'</tr>'].join('')).appendTo($tbody);
 				});
-				$tbody.show();
 				
 				// set default values
 				$form_modify_db.find('[name="username"]').attr('value', db['username']);
@@ -190,6 +188,8 @@
 			} else {
 				$.notify(reply['msg']);
 			}
+			
+			$table.removeClass('hidden');
 		});
 		
 		
@@ -219,7 +219,7 @@
 				var pass = $form_modify_db.find('[name="password"]').val(),
 					pass_again = $form_modify_db.find('#input-again').val();
 				if (pass && pass_again !== pass) {
-					$.notify('Not Match');
+					$.notify('not match');
 					return false;
 				}
 				return true;
@@ -244,6 +244,8 @@
 				
 				if (reply['ok']) {
 					$frame.repath();
+				} else {
+					$form_colls[0].reset();
 				}
 			});
 			

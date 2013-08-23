@@ -89,8 +89,8 @@ var $body = $('body'),
 				$form_login.addClass('hidden');
 				$form_logout.removeClass('hidden');
 			} else {
-				$form_login.removeClass('hidden');
 				$form_logout.addClass('hidden');
+				$form_login.removeClass('hidden');
 			}
 		});
 	}

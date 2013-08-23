@@ -16,7 +16,7 @@
 		<div class="panel-body">
 			<div class="table-responsive">
 				<form id="form-records">
-					<table id="table-records" class="table table-striped">
+					<table id="table-records" class="table table-striped hidden">
 						<thead></thead>
 						<tbody></tbody>
 						<tfoot>
@@ -24,7 +24,7 @@
 								<td class="td-master" colspan="1">
 									<input class="btn btn-danger" id="btn-remove" type="button" value="Remove">
 									<input class="btn btn-default" type="reset" value="Reset">
-									<input class="btn btn-info" id="btn-save" type="button" value="Save">
+									<input class="btn btn-info" id="btn-modify" type="button" value="Save">
 								</td>
 							</tr>
 						</tfoot>
@@ -59,10 +59,12 @@
 			$form_records = $wrapper.find('#form-records'),
 			$form_add = $wrapper.find('#form-add'),
 			$btn_remove = $form_records.find('#btn-remove'),
-			$btn_save = $form_records.find('#btn-save');
+			$btn_modify = $form_records.find('#btn-modify');
 		
 		var coll_id = Number($frame.getParam('coll'));
 		
+		
+		// load data
 		$.get('/do_check_coll/?coll='+ coll_id, function(reply){
 			if (reply['ok']) {
 				var coll = reply['coll'],
@@ -95,7 +97,7 @@
 				});
 				$tr.appendTo($thead);
 				
-				var $tbody = $table_records.find('tbody').hide();
+				var $tbody = $table_records.find('tbody');
 				_.each(records, function(record){
 					var $tr = $('<tr>').append(['<td>', 
 							'<input type="checkbox" name="selected[]" value="'+ record['_id'] +'">',
@@ -111,10 +113,11 @@
 					});
 					$tr.appendTo($tbody);
 				});
-				$tbody.show();
 			} else {
 				$.notify(reply['msg']);
 			}
+			
+			$table_records.removeClass('hidden');
 		});
 		
 		
@@ -131,13 +134,15 @@
 			
 			return false;
 		});
-		$btn_save.on('click', function(ev){
+		$btn_modify.on('click', function(ev){
 			$.post('/do_modify_records/?coll='+ coll_id,
 				$form_records.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
 					$frame.repath();
+				} else {
+					$form_records[0].reset();
 				}
 			});
 			

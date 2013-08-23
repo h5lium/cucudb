@@ -21,7 +21,8 @@
 					json[key] = [];
 				}
 			}
-			// notice: value goes `undefined` on server when submitted as `[]`
+			// notice: value goes `undefined` on server as `[]`
+			// notice: value goes `undefined` on server as '' in array
 			
 			if (! $el.is(':checkbox') || $el.is(':checked')) {
 				var value = (function(type, val){
