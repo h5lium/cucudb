@@ -1,9 +1,0 @@
-//navbar ssu
-
-api display
-
-user_op logout/getuser
-
-//form json
-
-_id number
