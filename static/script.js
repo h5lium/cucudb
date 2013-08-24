@@ -43,4 +43,57 @@ var $body = $('body'),
 		$frame.path(href);
 		return false;
 	});
+	
+	
+	// login form
+	var $form_login = $navbar.find('#form-login');
+	$form_login.on('submit', function(ev){
+		var $form = $(this);
+		
+		$.post('/do/login', {
+			'login_info': $form.getFormString(),
+		}, function(reply){
+			$.notify(reply['msg']);
+			
+			if (reply['ok']) {
+				$frame.path('check_db');
+				getUser();
+				$form[0].reset();
+			}
+		});
+		
+		return false;
+	});
+	// logout form
+	var $form_logout = $navbar.find('#form-logout'),
+		$span_username = $form_logout.find('#span-username');
+	$form_logout.on('submit', function(ev){
+		var $form = $(this);
+		
+		$.post('/do/logout', $form.getFormData(), function(reply){
+			$.notify(reply['msg']);
+			
+			if (reply['ok']) {
+				$frame.path('home');
+				getUser();
+				$span_username.empty();
+			}
+		});
+		
+		return false;
+	});
+	// get user
+	getUser();
+	function getUser(){
+		$.get('/do/get_user', function(reply){
+			if (reply['ok']) {
+				$span_username.text(reply['user'].username);
+				$form_login.addClass('hidden');
+				$form_logout.removeClass('hidden');
+			} else {
+				$form_logout.addClass('hidden');
+				$form_login.removeClass('hidden');
+			}
+		});
+	}
 })();

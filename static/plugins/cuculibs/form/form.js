@@ -7,7 +7,7 @@
 	
 	
 	// form-data
-	$.fn.getFormData = function(keys){
+	$.fn.getFormData = function(keysPick, keysOmit){
 		var json = {};
 		$(this).find('[name]').filter(function(i, el){
 			return ! $(el).is(':disabled');
@@ -39,12 +39,20 @@
 			}
 		});
 		
+		
+		if (keysPick) {
+			json = _.pick(json, keysPick);
+		} else if (keysOmit) {
+			json = _.omit(json, keysOmit);
+		}
+		
 		// debug
 		//console.info('submit:', json);
-		return keys ? _.pick(json, keys) : json;
+		return json;
 	}
-	$.fn.getFormString = function(keys){
-		return JSON.stringify($(this).getFormData(keys));
+	$.fn.getFormString = function(keysPick, keysOmit){
+		return JSON.stringify($(this)
+			.getFormData(keysPick, keysOmit));
 	}
 	$(function(){
 		// prevent all form default behaviors

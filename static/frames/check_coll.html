@@ -123,8 +123,9 @@
 		
 		//form submit
 		$btn_remove.on('click', function(ev){
-			$.post('/do/remove_records/?coll='+ coll_id,
-				$form_records.getFormData('selected'), function(reply){
+			$.post('/do/remove_records/?coll='+ coll_id, {
+				'remove_info': $form_records.getFormString('selected')
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -135,8 +136,9 @@
 			return false;
 		});
 		$btn_modify.on('click', function(ev){
-			$.post('/do/modify_records/?coll='+ coll_id,
-				$form_records.getFormData(), function(reply){
+			$.post('/do/modify_records/?coll='+ coll_id, {
+				'modify_info': $form_records.getFormString(null, 'selected')
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -150,8 +152,9 @@
 		});
 		
 		$form_add.on('submit', function(ev){
-			$.post('/do/add_record/?coll='+ coll_id,
-				$form_add.getFormData(), function(reply){
+			$.post('/do/add_record/?coll='+ coll_id, {
+				'add_info': $form_add.getFormString()
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {

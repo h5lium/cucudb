@@ -193,19 +193,15 @@
 		});
 		
 		
-		// button create
-		$table.find('#btn-create').on('click', function(ev){
-			$frame.path('create_coll');
-		});
-		
-		
-		//form submit
+		// modify user
 		$form_modify_db.on('submit', function(ev){
 			if (! validate()) {
 				return false;
 			}
 			
-			$.post('/do/modify_db', $form_modify_db.getFormData(), function(reply){
+			$.post('/do/modify_db', {
+				'modify_info': $form_modify_db.getFormString()
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -226,8 +222,12 @@
 			}
 		});
 		
+		
+		// remove colls
 		$btn_remove_colls.on('click', function(ev){
-			$.post('/do/remove_colls', $form_colls.getFormData('selected'), function(reply){
+			$.post('/do/remove_colls', {
+				'remove_info': $form_colls.getFormString('selected')
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -237,9 +237,11 @@
 			
 			return false;
 		});
-		
+		// modify colls
 		$btn_modify_colls.on('click', function(ev){
-			$.post('/do/modify_colls', $form_colls.getFormData(), function(reply){
+			$.post('/do/modify_colls', {
+				'modify_info': $form_colls.getFormString(null, 'selected')
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -253,7 +255,7 @@
 		});
 		
 		
-		
+		// load fields
 		var $div_fields = $form_add_coll.find('#div-fields');
 		_.each(sysFields, function(val){
 			$div_fields.append(['<div class="input-group">',
@@ -274,10 +276,11 @@
 		$div_fields.find('.tick-toggle').on('change', function(){
 			$(this).closest('.input-group').find('[name]').attr('disabled', ! $(this).is(':checked'));
 		});
-		
-		
+		// add coll
 		$form_add_coll.on('submit', function(ev){
-			$.post('/do/add_coll', $form_add_coll.getFormData(), function(reply){
+			$.post('/do/add_coll', {
+				'add_info': $form_add_coll.getFormString()
+			}, function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
