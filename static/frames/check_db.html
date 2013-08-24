@@ -152,7 +152,7 @@
 		
 		
 		// load data
-		$.get('/do_check_db', function(reply){
+		$.get('/do/check_db', function(reply){
 			if (reply['ok']) {
 				var db = reply['db'];
 				var $tbody = $table.find('tbody');
@@ -205,7 +205,7 @@
 				return false;
 			}
 			
-			$.post('/do_modify_db', $form_modify_db.getFormData(), function(reply){
+			$.post('/do/modify_db', $form_modify_db.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -227,7 +227,7 @@
 		});
 		
 		$btn_remove_colls.on('click', function(ev){
-			$.post('/do_remove_colls', $form_colls.getFormData('selected'), function(reply){
+			$.post('/do/remove_colls', $form_colls.getFormData('selected'), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -239,7 +239,7 @@
 		});
 		
 		$btn_modify_colls.on('click', function(ev){
-			$.post('/do_modify_colls', $form_colls.getFormData(), function(reply){
+			$.post('/do/modify_colls', $form_colls.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {
@@ -277,7 +277,7 @@
 		
 		
 		$form_add_coll.on('submit', function(ev){
-			$.post('/do_add_coll', $form_add_coll.getFormData(), function(reply){
+			$.post('/do/add_coll', $form_add_coll.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {

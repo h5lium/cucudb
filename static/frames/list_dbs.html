@@ -30,7 +30,7 @@
 			$table = $wrapper.find('#table-dbs');
 		
 		// load data
-		$.get('/do_list_dbs', function(reply){
+		$.get('/do/list_dbs', function(reply){
 			if (reply['ok']) {
 				var $tbody = $table.find('tbody');
 				$.each(reply['dbs'], function(i, db){

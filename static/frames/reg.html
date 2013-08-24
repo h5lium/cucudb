@@ -59,7 +59,7 @@
 				return false;
 			}
 			
-			$.post('/do_reg', $form.getFormData(), function(reply){
+			$.post('/do/reg', $form.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
 				if (reply['ok']) {

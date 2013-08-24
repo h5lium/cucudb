@@ -65,7 +65,7 @@
 		
 		
 		// load data
-		$.get('/do_check_coll/?coll='+ coll_id, function(reply){
+		$.get('/do/check_coll/?coll='+ coll_id, function(reply){
 			if (reply['ok']) {
 				var coll = reply['coll'],
 					name = coll.name,
@@ -123,7 +123,7 @@
 		
 		//form submit
 		$btn_remove.on('click', function(ev){
-			$.post('/do_remove_records/?coll='+ coll_id,
+			$.post('/do/remove_records/?coll='+ coll_id,
 				$form_records.getFormData('selected'), function(reply){
 				$.notify(reply['msg']);
 				
@@ -135,7 +135,7 @@
 			return false;
 		});
 		$btn_modify.on('click', function(ev){
-			$.post('/do_modify_records/?coll='+ coll_id,
+			$.post('/do/modify_records/?coll='+ coll_id,
 				$form_records.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
@@ -150,7 +150,7 @@
 		});
 		
 		$form_add.on('submit', function(ev){
-			$.post('/do_add_record/?coll='+ coll_id,
+			$.post('/do/add_record/?coll='+ coll_id,
 				$form_add.getFormData(), function(reply){
 				$.notify(reply['msg']);
 				
