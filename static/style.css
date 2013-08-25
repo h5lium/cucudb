@@ -1,6 +1,6 @@
 /* over bootstrap 2 */
-body {
-	min-width: 320px;
+html, body {
+	height: 100%;
 }
 form>legend {
 	width: 60%;
@@ -24,12 +24,8 @@ input[type="checkbox"] {
 table {
 	min-width: 480px;
 }
-.panel {
+table, form, .panel, .jumbotron, .list-group {
 	margin-bottom: 15px;
-}
-table:last-child, form:last-child,
-.panel:last-child {
-	margin-bottom: 0;
 }
 form .form-group:last-child {
 	padding-top: 5px;
@@ -49,7 +45,13 @@ form .form-group:last-child {
 .container {
 	width: 100%;
 	min-width: 0;
-	max-width: 9999px;
+	max-width: 1080px;
+}
+@media (min-width: 1200px) {
+	.container {
+		width: 90%;
+		max-width: 9999px;
+	}
 }
 .navbar-collapse {
 	padding-right: 0;
@@ -75,14 +77,27 @@ form .form-group:last-child {
 
 /* customer */
 #frame {
-	margin-top: 50px;
-	padding: 15px;
+	padding-top: 65px;
+	
+	min-height: 100%;
+	height: auto!important;
+	margin-bottom: -80px;
+	padding-bottom: 95px;
 }
 @media (max-width: 480px) {
 	#frame {
-		padding: 10px;
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 60px;
+		
+		margin-bottom: -80px;
+		padding-bottom: 90px;
 	}
 }
-article>p:last-child {
-	margin-bottom: 0;
+#footer {
+	height: 80px;
+	background-color: #f5f5f5;
+}
+#footer .credit{
+	margin: 20px 0;
 }

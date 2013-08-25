@@ -25,11 +25,7 @@
 			// notice: value goes `undefined` on server as '' in array
 			
 			if (! $el.is(':checkbox') || $el.is(':checked')) {
-				var value = (function(type, val){
-					// number allowed
-					return type && type.toLowerCase() === 'number' ?
-						Number(val) : val;
-				})($el.attr('type'), $el.val());
+				var value = $el.val();
 				
 				if (_.isArray(json[key])) {
 					json[key].push(value);

@@ -2,7 +2,8 @@
 var http = require('http'),
 	fs = require('fs');
 var express = require('express'),
-	mongodb = require('mongodb');
+	mongodb = require('mongodb'),
+	_ = require('underscore');
 var dbinit = require('./lib/plugins/cuculibs/db/dbinit.js'),
 	Dao = require('./lib/plugins/cuculibs/db/Dao.js');
 
@@ -23,11 +24,15 @@ app.configure(function(){
 		secret: 'thats great'
 	}));
 	
-	// debug
-	/*app.use(function(req, res, next){
-		console.log(req.body);
+	// allow ajax access
+	app.use(function(req, res, next){
+		_.contains([
+			'/do/check_coll',
+			'/do/add_record'
+		], req.path)
+		&& res.header('Access-Control-Allow-Origin', '*');
 		next();
-	});*/
+	});
 });
 
 

@@ -2,7 +2,7 @@
 	
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			Create DB
+			<h3 class="panel-title">Create DB</h3>
 		</div>
 		
 		<div class="panel-body">
@@ -11,6 +11,10 @@
 					<label class="control-label col-sm-3">DB Name</label>
 					<div class="col-sm-5">
 						<input class="form-control" type="text" name="username">
+						
+						<p class="form-control-static text-muted">
+							4~16 chars, `a-z0-9` only, a-z first, case-insensitive
+						</p>
 					</div>
 				</div>
 				
@@ -18,6 +22,10 @@
 					<label class="control-label col-sm-3">Password</label>
 					<div class="col-sm-5">
 						<input class="form-control" type="password" name="password">
+						
+						<p class="form-control-static text-muted">
+							6~20 chars, semiangles(like `a-z0-9!@#`) only, case-sensitive
+						</p>
 					</div>
 				</div>
 				<div class="form-group">
@@ -31,6 +39,10 @@
 					<label class="control-label col-sm-3">Summary</label>
 					<div class="col-sm-5">
 						<textarea class="form-control" name="summary"></textarea>
+						
+						<p class="form-control-static text-muted">
+							within 100 chars
+						</p>
 					</div>
 				</div>
 				

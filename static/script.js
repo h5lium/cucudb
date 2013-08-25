@@ -1,22 +1,11 @@
 var $body = $('body'),
 	$frame = $('#frame'),
-	//$loading = $('#loading'),
 	$navbar = $('.navbar'),
 	$toggle = $('.navbar').find('.navbar-toggle'),
 	$nav = $navbar.find('.navbar-nav');
 
 
 (function(){
-	// loading
-	/*$(document).ajaxStart(function(){
-		$loading.addClass('on');
-	}).ajaxStop(function(){
-		_.delay(function(){
-			$loading.removeClass('on');
-		}, 300);
-	});*/
-	
-	
 	// path
 	$frame.pathConfig({
 		router: function(href){
@@ -36,12 +25,21 @@ var $body = $('body'),
 			if ($($toggle.data('target')).is('.in')) {
 				$toggle.click();
 			}
+			// scroll top
+			$(window).scrollTop(0);
 		}
 	}, $.getHash().substr(1) || 'home');
 	$body.delegate('[href]', 'click', function(ev){
 		var href = $(this).attr('href');
-		$frame.path(href);
-		return false;
+		if ($(this).is('.external')) {
+			window.open(href);
+			return false;
+		} else if ($(this).is('.anchor')) {
+			return true;
+		} else {
+			$frame.path(href);
+			return false;
+		}
 	});
 	
 	

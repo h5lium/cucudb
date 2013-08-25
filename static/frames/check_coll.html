@@ -11,7 +11,9 @@
 
 <div id="wrapper">
 	<div class="panel panel-default">
-		<div class="panel-heading" id="table-caption"></div>
+		<div class="panel-heading">
+			<h3 class="panel-title" id="table-caption"></h3>
+		</div>
 		
 		<div class="panel-body">
 			<div class="table-responsive">
@@ -22,9 +24,9 @@
 						<tfoot>
 							<tr>
 								<td class="td-master" colspan="1">
-									<input class="btn btn-danger" id="btn-remove" type="button" value="Remove">
-									<input class="btn btn-default" type="reset" value="Reset">
-									<input class="btn btn-info" id="btn-modify" type="button" value="Save">
+									<button class="btn btn-danger" id="btn-remove">Remove</button>
+									<button class="btn btn-default" type="reset">Reset</button>
+									<button class="btn btn-info" id="btn-modify">Modify</button>
 								</td>
 							</tr>
 						</tfoot>
@@ -36,13 +38,25 @@
 	
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			Add Record
+			<h3 class="panel-title">Add Record</h3>
 		</div>
 		
 		<div class="panel-body">
 			<form id="form-add" class="form-horizontal">
-				<div class="control-group">
-					<input type="submit" value="Add" class="btn btn-success">
+				<div class="form-group">
+					<div class="col-sm-4">
+						<label class="control-label col-sm-4"></label>
+					</div>
+					<div class="col-sm-5">
+						<p class="form-control-static text-muted">
+							within 200 chars
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button class="btn btn-success" type="submit">Add</button>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -81,7 +95,7 @@
 					$tr = $('<tr>').append(['<th>',
 						'<input type="checkbox" class="check-all" data-name="selected[]">',
 					'</th>'].join(''));
-				var $values = $form_add.find('#values');
+				var $description = $form_add.find('.form-group:first');
 				_.each(fields, function(field){
 					$('<th>').text(field).appendTo($tr);
 					
@@ -92,7 +106,7 @@
 							'<div class="col-sm-5">',
 								'<input class="form-control" type="text" name="'+ field +'">',
 							'</div>',
-						'</div>'].join('')).insertBefore('#form-add>.control-group:last');
+						'</div>'].join('')).insertBefore($description);
 					}
 				});
 				$tr.appendTo($thead);

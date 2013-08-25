@@ -1,14 +1,186 @@
+
+<style scoped>
+	strong.method {
+		margin-right: 6px;
+	}
+</style>
+
+
 <div id="wrapper">
-	
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			Cucu DB, Your Choice!
-		</div>
-		<div class="panel-body">
-			<article>
-				<p>Simplified Database Service for developer users</p>
-			</article>
-		</div>
+	<div class="jumbotron">
+		<h1>Cucu DB Service</h1>
+		<p>Simplified Database Service for developer users</p>
+		<p>
+			<a class="btn btn-success btn-lg" href="reg">Create DB &raquo;</a>
+		</p>
 	</div>
+	
+	
+	<ul class="list-group">
+		<li class="list-group-item active">
+			<h3 class="list-group-item-heading">
+				List Records
+			</h3>
+			<div class="list-group-item-text">
+				<p>
+					<strong class="method">GET</strong>
+					/do/check_coll?coll=<em>[coll_id]</em>
+				</p>
+			</div>
+		</li>
+		
+		<li class="list-group-item">
+			<div class="panel-group" id="ex-list">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle anchor" data-toggle="collapse" data-parent="#ex-list" href="#ex-list-php">
+								PHP Example
+							</a>
+						</h4>
+					</div>
+					<div id="ex-list-php" class="panel-collapse collapse in">
+						<div class="panel-body">
+<pre>
+$client= new HttpClient('cucudb.duapp.com');
+$coll_id = 6;
+$client->get('/do/check_coll?coll='. $coll_id);
+$coll = json_decode($client->getContent(), true);
+print_r($coll['records']);	// array of records
+</pre>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle anchor" data-toggle="collapse" data-parent="#ex-list" href="#ex-list-node">
+								NodeJS Example
+							</a>
+						</h4>
+					</div>
+					<div id="ex-list-node" class="panel-collapse collapse">
+						<div class="panel-body">
+<pre>
+var request = require('request');
+var coll_id = 6;
+request({
+	method: 'GET',
+	url: 'http://cucudb.duapp.com/do/check_coll?coll='+ coll_id
+}, function(err, res, body){
+	var coll = JSON.parse(body);
+	console.log(coll['records']);	// array of records
+});
+</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	
+	<ul class="list-group">
+		<li class="list-group-item active">
+			<h3 class="list-group-item-heading">
+				Add Record
+			</h3>
+			<div class="list-group-item-text">
+				<p>
+					<strong class="method">POST</strong>
+					/do/add_record?coll=<em>[coll_id]</em>
+				</p>
+				<p>
+					<h5>Parameters</h5>
+					<ul>
+						<li>field1: value1</li>
+						<li>field2: value2</li>
+						<li>field3: value3</li>
+						<li>...</li>
+					</ul>
+				</p>
+			</div>
+		</li>
+		
+		<li class="list-group-item">
+			<div class="panel-group" id="ex-add">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle anchor" data-toggle="collapse" data-parent="#ex-add" href="#ex-add-php">
+								PHP Example
+							</a>
+						</h4>
+					</div>
+					<div id="ex-add-php" class="panel-collapse collapse in">
+						<div class="panel-body">
+<pre>
+$client= new HttpClient('cucudb.duapp.com');
+$coll_id = 6;
+$client->post('/do/add_record?coll='. $coll_id, array(
+	'message' => 'are you crazy?',
+	'from' => 'Peter',
+	'to' => 'Mary'
+));
+$reply = json_decode($client->getContent(), true);
+print_r($reply);	// reply object
+</pre>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle anchor" data-toggle="collapse" data-parent="#ex-add" href="#ex-add-node">
+								NodeJS Example
+							</a>
+						</h4>
+					</div>
+					<div id="ex-add-node" class="panel-collapse collapse">
+						<div class="panel-body">
+<pre>
+var request = require('request');
+var coll_id = 6;
+request.post({
+	method: 'POST',
+	url: 'http://cucudb.duapp.com/do/add_record?coll='+ coll_id,
+	form: {
+		'message': 'are you crazy?',
+		'from': 'Peter',
+		'to': 'Mary'
+	}
+}, function(err, res, body){
+	var reply = JSON.parse(body);
+	console.log(reply);	// reply object
+});
+</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	
+	<ul class="list-group">
+		<li class="list-group-item active">
+			<h3 class="list-group-item-heading">
+				Development Libraries
+			</h3>
+		</li>
+		<li class="list-group-item">
+			<ul>
+				<li>
+					<a class="external" href="http://scripts.incutio.com/httpclient/index.php">
+						HttpClient -- a PHP Web Client Class
+					</a>
+				</li>
+				<li>
+					<a class="external" href="https://npmjs.org/package/request">
+						Request -- NodeJS Simplified HTTP client
+					</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
 	
 </div>

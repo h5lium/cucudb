@@ -18,7 +18,7 @@
 	
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			Modify My DB
+			<h3 class="panel-title">Modify My DB</h3>
 		</div>
 		
 		<div class="panel-body">
@@ -34,6 +34,10 @@
 					<label class="control-label col-sm-4">New Password</label>
 					<div class="col-sm-5">
 						<input class="form-control" type="password" name="password">
+						
+						<p class="form-control-static text-muted">
+							6~20 chars, semiangles(like `a-z0-9!@#`) only, case-sensitive
+						</p>
 					</div>
 				</div>
 				<div class="form-group">
@@ -47,13 +51,17 @@
 					<label class="control-label col-sm-4">Summary</label>
 					<div class="col-sm-5">
 						<textarea class="form-control" name="summary"></textarea>
+						
+						<p class="form-control-static text-muted">
+							within 100 chars
+						</p>
 					</div>
 				</div>
 				
 				 <div class="form-group">
 				 	<div class="col-sm-12">
-						<input type="reset" value="Reset" class="btn btn-default">
-						<input type="submit" value="Modify" class="btn btn-info">
+				 		<button class="btn btn-default" type="reset">Reset</button>
+				 		<button class="btn btn-info" type="submit">Modify</button>
 					</div>
 				</div>
 			</form>
@@ -62,7 +70,7 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			My Collections
+			<h3 class="panel-title">My Collections</h3>
 		</div>
 		
 		<div class="panel-body">
@@ -85,9 +93,9 @@
 						<tfoot>
 							<tr>
 								<td colspan="6">
-									<input type="button" id="btn-remove-colls" class="btn btn-danger" value="Remove">
-									<input type="reset" class="btn btn-default" value="Reset">
-									<input type="button" id="btn-modify-colls" class="btn btn-info" value="Modify">
+									<button class="btn btn-danger" id="btn-remove-colls">Remove</button>
+									<button class="btn btn-default" type="reset">Reset</button>
+									<button class="btn btn-info" id="btn-modify-colls">Modify</button>
 								</td>
 							</tr>
 						</tfoot>
@@ -100,7 +108,7 @@
 	
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			Add Collection
+			<h3 class="panel-title">Add Collection</h3>
 		</div>
 		
 		<div class="panel-body">
@@ -109,29 +117,42 @@
 					<label class="control-label col-sm-4">Collection Name</label>
 					<div class="col-sm-5">
 						<input class="form-control" type="text" name="name">
+						
+						<p class="form-control-static text-muted">
+							1~16 chars, `a-z0-9_` only, a-z first
+						</p>
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-4">Feilds</label>
-					<div class="col-sm-5" id="div-fields"></div>
+					<div class="col-sm-5" id="div-fields">
+						<p class="form-control-static text-muted">
+							1~10 chars, `a-z0-9_` only, a-z first
+						</p>
+					</div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-4">Summary</label>
 					<div class="col-sm-5">
 						<textarea class="form-control" name="summary"></textarea>
+						
+						<p class="form-control-static text-muted">
+							within 100 chars
+						</p>
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<div class="col-sm-12">
-						<input type="submit" value="Add" class="btn btn-success">
+						<button class="btn btn-success" type="submit">Add</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+	
 </div>
 
 
@@ -258,20 +279,20 @@
 		// load fields
 		var $div_fields = $form_add_coll.find('#div-fields');
 		_.each(sysFields, function(val){
-			$div_fields.append(['<div class="input-group">',
+			$(['<div class="input-group">',
 				'<span class="input-group-addon">',
 					'<input class="tick-toggle" type="checkbox" checked disabled>',
 				'</span>',
 				'<input class="form-control" type="text" value="'+ val +'" readonly>',
-			'</div>'].join(''));
+			'</div>'].join('')).insertBefore($div_fields.find('p'));
 		});
 		_.times(maxNumUserFields, function(){
-			$div_fields.append(['<div class="input-group">',
+			$(['<div class="input-group">',
 				'<span class="input-group-addon">',
 					'<input class="tick-toggle" type="checkbox">',
 				'</span>',
 				'<input class="form-control" type="text" name="fields[]" disabled>',
-			'</div>'].join(''));
+			'</div>'].join('')).insertBefore($div_fields.find('p'));
 		});
 		$div_fields.find('.tick-toggle').on('change', function(){
 			$(this).closest('.input-group').find('[name]').attr('disabled', ! $(this).is(':checked'));
