@@ -87,6 +87,7 @@ var $body = $('body'),
 		
 		return false;
 	});
+	
 	// get user
 	getUser();
 	function getUser(){
@@ -101,4 +102,5 @@ var $body = $('body'),
 			}
 		});
 	}
+	window.getUser = getUser;
 })();
