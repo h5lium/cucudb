@@ -29,6 +29,7 @@ var $body = $('body'),
 			$(window).scrollTop(0);
 		}
 	}, $.getHash().substr(1) || 'home');
+	// href click
 	$body.delegate('[href]', 'click', function(ev){
 		var href = $(this).attr('href');
 		if ($(this).is('.external')) {
@@ -40,6 +41,12 @@ var $body = $('body'),
 			$frame.path(href);
 			return false;
 		}
+	});
+	// hash change
+	$(window).on('hashchange', function(){
+		var href = $.getHash().substr(1);
+		href !== $frame.data('pathHref') && $frame.path(href);
+		return false;
 	});
 	
 	
